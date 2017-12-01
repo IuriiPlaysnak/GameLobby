@@ -23,8 +23,12 @@ namespace PlaysnakRealms {
 		void Awake() {
 
 			_requestResolver = gameObject.GetComponent<RequestResolver>();
+
 			_videoPlayer = gameObject.GetComponent<VideoPlayer> ();
 			_videoPlayer.playOnAwake = false;
+
+			_audioVideoPlayer = gameObject.AddComponent<VideoPlayer> ();
+			_audioVideoPlayer.playOnAwake = false;
 		}
 
 		public void PlayYoutubeVideo(string videoId)
@@ -110,11 +114,6 @@ namespace PlaysnakRealms {
 				_videoPlayer.url = videoUrl;
 				checkIfVideoArePrepared = true;
 				_videoPlayer.Prepare ();
-
-				if (_audioVideoPlayer == null) {
-					_audioVideoPlayer = gameObject.AddComponent<VideoPlayer> ();
-					_audioVideoPlayer.playOnAwake = false;
-				}
 
 				_audioVideoPlayer.source = VideoSource.Url;
 				_audioVideoPlayer.url = audioVideoUrl;

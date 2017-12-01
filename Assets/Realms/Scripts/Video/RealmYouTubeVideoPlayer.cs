@@ -30,7 +30,9 @@ namespace PlaysnakRealms {
 			_playback = gameObject.GetComponentInChildren<RealmYouTubePlayback> ();
 			_youtubeManager = gameObject.GetComponent<YoutubeAPIManager> ();
 			_playButtonUI = gameObject.GetComponentInChildren<RealmPlayPauseButtonUI> ();		
+
 			_playerAudio = _playback.GetComponentInChildren<AudioSource> ();
+			_playerAudio.playOnAwake = false;
 		}
 
 		void Start () {

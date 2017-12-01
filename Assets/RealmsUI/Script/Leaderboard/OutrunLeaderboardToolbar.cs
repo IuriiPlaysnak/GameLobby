@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ui_leaderboardToolbar_01 : MonoBehaviour {
+public class OutrunLeaderboardToolbar : MonoBehaviour {
 
     public ButtonWithClickMeterUI global;
     public ButtonWithClickMeterUI myScore;

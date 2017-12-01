@@ -7,9 +7,8 @@ using System.Linq;
 namespace PlaysnakRealms {
 
 	[RequireComponent (typeof(YoutubeAPIManager))]
+	[RequireComponent (typeof(RealmAutoplayController))]
 	public class RealmYouTubePlaylist : MonoBehaviour {
-
-		private const float DEFAULT_AUTOPLAY_DELAY = 3f;
 
 		[SerializeField]
 		private string _playlistUrl;
@@ -46,13 +45,7 @@ namespace PlaysnakRealms {
 			Debug.Assert (_player != null, "Player is missing");
 
 			_youtubeManager = gameObject.GetComponent<YoutubeAPIManager> ();
-
 			_autoplay = gameObject.GetComponent<RealmAutoplayController> ();
-			if (_autoplay == null) {
-
-				_autoplay = gameObject.AddComponent<RealmAutoplayController> ();
-				_autoplay.delay = DEFAULT_AUTOPLAY_DELAY;
-			}
 		}
 
 		void Start () {

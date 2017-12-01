@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace PlaysnakRealms {
+	
 	public class RealmVideoContentCard : MonoBehaviour {
 
 		private const int MAX_DESCRIPTION_TEXT_LENGTH = 300;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PlaysnakRealms {
 
-	public class VideoPlaylistThumbnails : MonoBehaviour {
+	public class RealmYouTubePlaylistThumbnails : MonoBehaviour {
 
 		[SerializeField]
 		private RealmYouTubePlaylist _playlist;

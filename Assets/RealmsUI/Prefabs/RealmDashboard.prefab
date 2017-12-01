@@ -1021,9 +1021,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4694817278511292}
-  - component: {fileID: 114286393199684498}
-  - component: {fileID: 65739804536723700}
-  - component: {fileID: 114476358491050414}
   - component: {fileID: 114262360549717830}
   m_Layer: 0
   m_Name: RealmVideoContentCard
@@ -2190,18 +2187,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 200, y: 1080, z: 1}
   m_Center: {x: 100, y: 0, z: 0}
---- !u!65 &65739804536723700
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1526572594989990}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.45, y: 1.08, z: 0.05}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65751904896131356
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3236,10 +3221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0cb235405c1df946b95c2a4d31ce673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 3
-  canvasDimensions: {fileID: 224647858100027366}
-  subTo: 0
-  _flipAnimation: {fileID: 0}
+  _canvasDimensions: {fileID: 0}
 --- !u!114 &114208703769352442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3411,8 +3393,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b90f9c62724aeae4da3c952707936e72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvasDimensions: {fileID: 224215021887848698}
   _title: {fileID: 114628791862441590}
   _desription: {fileID: 114768733677442932}
+  _player: {fileID: 114834389090431340}
 --- !u!114 &114273240708288480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3455,21 +3439,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114286393199684498
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1526572594989990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0cb235405c1df946b95c2a4d31ce673, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  canvasDimensions: {fileID: 224215021887848698}
-  subTo: 0
-  _flipAnimation: {fileID: 0}
 --- !u!114 &114307598988541578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3584,10 +3553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0cb235405c1df946b95c2a4d31ce673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 5
-  canvasDimensions: {fileID: 224690054480533652}
-  subTo: 0
-  _flipAnimation: {fileID: 0}
+  _canvasDimensions: {fileID: 0}
 --- !u!114 &114346001834880928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4017,10 +3983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0cb235405c1df946b95c2a4d31ce673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 4
-  canvasDimensions: {fileID: 224658611104587266}
-  subTo: 1
-  _flipAnimation: {fileID: 0}
+  _canvasDimensions: {fileID: 0}
 --- !u!114 &114471809802747412
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4074,18 +4037,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &114476358491050414
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1526572594989990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15285fcc231e6e643a8466d41d53a096, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _doShowCursor: 0
 --- !u!114 &114481422908289282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4119,11 +4070,6 @@ MonoBehaviour:
   _maxNumberOfItemsInPlaylist: 10
   _player: {fileID: 114834389090431340}
   _playOnAwake: 1
-  _thumbnails:
-  - {fileID: 114647258500749364}
-  - {fileID: 114035062247746604}
-  - {fileID: 114827604231457602}
-  _darkOverlay: {fileID: 1284574483321728}
 --- !u!114 &114499024447317876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4756,15 +4702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4009419318f9cb4198e0d51dc74ca4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoId: 
-  videoQuality: 4
-  useBestQualityAvailable: 1
-  useNewUnityPlayer: 1
-  unityVideoPlayer: {fileID: 328604710879910150}
-  playOnStart: 0
-  noHD: 0
-  audioVplayer: {fileID: 328604710879910150}
-  isSyncing: 0
 --- !u!114 &114730209578534528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4812,10 +4749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0cb235405c1df946b95c2a4d31ce673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
-  canvasDimensions: {fileID: 224425205485503872}
-  subTo: 0
-  _flipAnimation: {fileID: 0}
+  _canvasDimensions: {fileID: 0}
 --- !u!114 &114732555021622390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4995,7 +4929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inBetweenSubs: {fileID: 0}
   cards:
-  - {fileID: 114286393199684498}
+  - {fileID: 114262360549717830}
   - {fileID: 114732468608166702}
   - {fileID: 114207844806435480}
   - {fileID: 114343254595146024}
@@ -5233,7 +5167,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _videoURL: 
-  _contentPanel: {fileID: 114262360549717830}
 --- !u!114 &114850002700048656
 MonoBehaviour:
   m_ObjectHideFlags: 1
