@@ -1,0 +1,15 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\RealmsUI\Script\RealmButtonWithClickMeter.cs">
+    <Files>
+      <File FileName="Assets\RealmsUI\Script\Buttons\RealmPrevNextButton.cs" Line="35" Column="64" />
+      <File FileName="Assets\RealmsUI\Script\UI\ButtonWithCyclingClickMeterUI.cs" Line="7" Column="63" />
+      <File FileName="Assets\RealmsUI\Script\UI\RealmPrevNextButtonUI.cs" Line="7" Column="68" />
+      <File FileName="Assets\RealmsUI\Script\RealmButtonWithClickMeter.cs" Line="45" Column="22" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
