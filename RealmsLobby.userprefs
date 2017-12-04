@@ -1,8 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\OutrunLeaderboard\Scripts\AbstractLeaderboard.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Input\RealmOculusController.cs">
     <Files>
+      <File FileName="Assets\Scripts\Input\RealmOculusController.cs" Line="9" Column="3" />
       <File FileName="Assets\OutrunLeaderboard\Scripts\AbstractLeaderboard.cs" Line="1" Column="1" />
+      <File FileName="Assets\OVR\Editor\OVRMoonlightLoader.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
