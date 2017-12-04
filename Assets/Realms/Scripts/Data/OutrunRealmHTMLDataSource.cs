@@ -29,7 +29,7 @@ public class OutrunRealmHTMLDataSource : IOutrunRealmDataSource {
 		_gallery = new OutrunRealmDataProvider.GalleryData ();
 		_gallery.images = new List<OutrunRealmDataProvider.ImageData> ();
 
-		OutrunRealmDataProvider.instance.StartCoroutine(DownloadHTML(url, ParseMainHTML));
+		OutrunRealmDataProvider.DownloadTextFile(url, ParseMainHTML);
 	}
 
 	private int _itemsAreLoading;
@@ -97,8 +97,8 @@ public class OutrunRealmHTMLDataSource : IOutrunRealmDataSource {
 				.Attribute ("href")
 				.Value
 				;
-
-		OutrunRealmDataProvider.instance.StartCoroutine (DownloadHTML (blogPostURL, ParseBlogPostHTML));
+		
+		OutrunRealmDataProvider.DownloadTextFile(blogPostURL, ParseBlogPostHTML);
 	}
 
 	private void ParseBlogPostHTML(string text) {
@@ -261,23 +261,5 @@ public class OutrunRealmHTMLDataSource : IOutrunRealmDataSource {
 		int endIndex = originalHTML.IndexOf (endStr, startIndex) + endStr.Length;
 
 		return originalHTML.Substring (startIndex, endIndex - startIndex);
-	}
-
-	private IEnumerator DownloadHTML(string link, System.Action<string> OnLoadingComplete) {
-
-//		Debug.Log ("Loading...");
-
-		WWW request = new WWW (link);
-		yield return request;
-
-//		Debug.Log ("Loading complete");
-
-		if (request.error != null) {
-
-			Debug.LogError (request.error);
-		} else {
-
-			OnLoadingComplete(request.text);
-		}
 	}
 }

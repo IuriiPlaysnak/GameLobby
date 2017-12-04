@@ -8,7 +8,8 @@ public class OutrunRealmDataProvider : MonoBehaviour
     private enum SourceFormat
     {
         JSON,
-        HTML
+        HTML,
+		RSS_XML
     }
 
     private enum SourceType
@@ -204,6 +205,25 @@ public class OutrunRealmDataProvider : MonoBehaviour
 		public override string ToString ()
 		{
 			return string.Format ("[NewsData]: title = {0}, image = {1}, link = {2} ", title, imageURL, link);
+		}
+	}
+
+	static public void DownloadTextFile(string link, System.Action<string> OnLoadingComplete) {
+
+		_instance.StartCoroutine (_instance.DownloadTextFileViaWWW(link, OnLoadingComplete));
+	}
+
+	private IEnumerator DownloadTextFileViaWWW(string link, System.Action<string> OnLoadingComplete) {
+
+		WWW request = new WWW (link);
+		yield return request;
+
+		if (request.error != null) {
+
+			Debug.LogError (request.error);
+		} else {
+
+			OnLoadingComplete(request.text);
 		}
 	}
 }
