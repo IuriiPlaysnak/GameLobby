@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
+using PlaysnakRealms;
 
 public class OutrunRealmDataProvider : MonoBehaviour
 {
-    private enum SourceFormat
+    private enum SourceFormat :int
     {
         JSON,
         HTML,
 		RSS_XML
     }
 
-    private enum SourceType
+    private enum SourceType : int
     {
         LOCAL,
         REMOTE
@@ -35,6 +36,9 @@ public class OutrunRealmDataProvider : MonoBehaviour
 
     [SerializeField]
     private string _htmlURL = null;
+
+	[SerializeField]
+	private string _feedURL = null;
 
 
 
@@ -84,6 +88,11 @@ public class OutrunRealmDataProvider : MonoBehaviour
                 _dataSource = new OutrunRealmHTMLDataSource();
                 dataSourceUrl = _htmlURL;
                 break;
+
+			case SourceFormat.RSS_XML:
+				_dataSource = new RealmsFeedXMLDataSource ();
+				dataSourceUrl = _feedURL;
+				break;
 
             default:
                 _dataSource = new OutrunRealmHTMLDataSource();
