@@ -6,7 +6,7 @@ public class Model3DRotation : MonoBehaviour {
 
 	void Awake() {
 
-		RealmInteractiveItem ii = gameObject.GetComponent<RealmInteractiveItem> ();
+		RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
 		if (ii != null) {
 			ii.OnOver += Ii_OnOver;
 			ii.OnMoveOver += Ii_OnMoveOver;

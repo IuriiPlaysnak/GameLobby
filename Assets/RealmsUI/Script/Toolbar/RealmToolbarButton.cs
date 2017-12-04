@@ -8,11 +8,11 @@ public class RealmToolbarButton : MonoBehaviour {
 	private const float HIDE_DELAY = .2f;
 
 	[SerializeField]
-	private List<RealmInteractiveItem> _relatives;
+	private List<RealmsInteractiveItem> _relatives;
 
 	void Awake() {
 
-		RealmInteractiveItem interaction = gameObject.GetComponent<RealmInteractiveItem> ();
+		RealmsInteractiveItem interaction = gameObject.GetComponent<RealmsInteractiveItem> ();
 
 		if (interaction != null) {
 			interaction.OnOver += OnOver;

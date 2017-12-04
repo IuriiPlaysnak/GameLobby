@@ -6,7 +6,7 @@ public class RealmToolbarWithMovingButtons : MonoBehaviour {
 
 	private const float SHOW_DELAY = .2f;
 
-	private RealmInteractiveItem _interaction;
+	private RealmsInteractiveItem _interaction;
 
 	[SerializeField]
 	private RectTransform _buttonPlaceholder;
@@ -26,18 +26,18 @@ public class RealmToolbarWithMovingButtons : MonoBehaviour {
 
 		foreach (GameObject button in _buttons) {
 
-			RealmInteractiveItem ii = button.GetComponent<RealmInteractiveItem> ();
+			RealmsInteractiveItem ii = button.GetComponent<RealmsInteractiveItem> ();
 			ii.OnOver += OnOver;
 			ii.OnOut += OnOut;
 		}
 
 		foreach (var toolbar in GameObject.FindObjectsOfType<RealmToolbarWithMovingButtons>()) {
-			RealmInteractiveItem ii = toolbar.GetComponent<RealmInteractiveItem> ();
+			RealmsInteractiveItem ii = toolbar.GetComponent<RealmsInteractiveItem> ();
 			ii.OnOver += OnOver;
 			ii.OnOut += OnOut;
 		}
 
-		_interaction = gameObject.GetComponent<RealmInteractiveItem> ();
+		_interaction = gameObject.GetComponent<RealmsInteractiveItem> ();
 
 		if (_interaction != null) {
 			_interaction.OnMoveOver += OnMoveOver;
@@ -53,7 +53,7 @@ public class RealmToolbarWithMovingButtons : MonoBehaviour {
 		Vector3 localColliderSize;
 		Vector3 localHitPoint;
 
-		RealmInteractiveItem.GetLocalHitData (hit, out localColliderSize, out localHitPoint);
+		RealmsInteractiveItem.GetLocalHitData (hit, out localColliderSize, out localHitPoint);
 
 		switch (_orientation) {
 

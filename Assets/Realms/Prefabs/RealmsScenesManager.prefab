@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4285304268109968}
   - component: {fileID: 114168606734028866}
   m_Layer: 0
-  m_Name: ScenesManager
+  m_Name: RealmsScenesManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

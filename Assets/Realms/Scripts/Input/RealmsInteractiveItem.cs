@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [RequireComponent (typeof(BoxCollider))]
-public class RealmInteractiveItem : MonoBehaviour {
+public class RealmsInteractiveItem : MonoBehaviour {
 
 	public event Action OnClick;
 	public event Action OnBack;
@@ -15,13 +15,7 @@ public class RealmInteractiveItem : MonoBehaviour {
 	[SerializeField]
 	private bool _doShowCursor = true;
 
-	public bool isClickable {
-		get { return OnClick != null; }
-	}
-
-	public bool doShowCursor {
-		get { return _doShowCursor; }
-	}
+	private bool _isCursorOver;
 
 	public void Click() {
 		ProcessClick ();	
@@ -57,6 +51,11 @@ public class RealmInteractiveItem : MonoBehaviour {
 
 	private void ProcessOver() {
 
+		if (_isCursorOver == true)
+			return;
+
+		_isCursorOver = true;
+
 		if (OnOver != null)
 			OnOver ();
 	}
@@ -68,6 +67,12 @@ public class RealmInteractiveItem : MonoBehaviour {
 	}
 
 	private void ProcessOut() {
+
+		if (_isCursorOver == false)
+			return;
+
+		_isCursorOver = false;
+
 		if (OnOut != null)
 			OnOut ();
 	}
@@ -85,5 +90,17 @@ public class RealmInteractiveItem : MonoBehaviour {
 		OnOver = null;
 		OnOut = null;
 		OnMoveOver = null;
+	}
+
+	public bool isClickable {
+		get { return OnClick != null; }
+	}
+
+	public bool doShowCursor {
+		get { return _doShowCursor; }
+	}
+
+	public bool isCursorOver {
+		get { return _isCursorOver; }
 	}
 }

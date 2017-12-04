@@ -14,7 +14,7 @@ public class RealmImagesCard : MonoBehaviour {
 	private GameObject _description;
 
 	[SerializeField]
-	private List<RealmInteractiveItem> _buttons;
+	private List<RealmsInteractiveItem> _buttons;
 
 	private RealmGallery _gallery;
 	private RealmAutoplayController _autoplay;
@@ -62,7 +62,7 @@ public class RealmImagesCard : MonoBehaviour {
 
 		_gallery.OnImageReady += OnGalleryImageLoaded;
 
-		RealmInteractiveItem ii = gameObject.GetComponent<RealmInteractiveItem> ();
+		RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
 		if (ii != null) {
 			ii.OnOver += OnOver;
 			ii.OnOut += OnOut;
@@ -108,7 +108,7 @@ public class RealmImagesCard : MonoBehaviour {
 		Vector3 localColliderSize;
 		Vector3 localHitPoint;
 
-		RealmInteractiveItem.GetLocalHitData (hit, out localColliderSize, out localHitPoint);
+		RealmsInteractiveItem.GetLocalHitData (hit, out localColliderSize, out localHitPoint);
 
 		Canvas.ForceUpdateCanvases ();
 

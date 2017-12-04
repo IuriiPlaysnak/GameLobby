@@ -5,7 +5,7 @@ using UnityEngine;
 namespace PlaysnakRealms {
 
 	[RequireComponent (typeof(LineRenderer))]
-	public class RealmOculusController : MonoBehaviour {
+	public class RealmsHandController : MonoBehaviour {
 
 		[SerializeField]
 		private OVRInput.Controller _controllerID = OVRInput.Controller.None;
@@ -15,6 +15,8 @@ namespace PlaysnakRealms {
 
 		[SerializeField]
 		private OVRInput.RawButton _cancelButton;
+
+		private RealmsInteractiveItem _lastInteraction;
 
 		private LineRenderer _lineRender;
 
@@ -29,6 +31,11 @@ namespace PlaysnakRealms {
 
 			if (_lineRender.enabled == false)
 				return;
+			
+			CheckHit ();
+		}
+
+		private void CheckHit() {
 
 			_lineRender.SetPosition (0, transform.position);
 
@@ -40,24 +47,49 @@ namespace PlaysnakRealms {
 				_lineRender.SetPosition (1, hit.point);
 			else
 				_lineRender.SetPosition (1, transform.forward * 100);
+	
+			if (isSomethingHit) {
 
-			if (OVRInput.GetUp (_actionButton)) {
+				RealmsInteractiveItem ii = hit.collider.GetComponent<RealmsInteractiveItem> ();
 
-				if (isSomethingHit) {
-
-					RealmInteractiveItem interactiveItem = hit.collider.GetComponent<RealmInteractiveItem> ();
-					if (interactiveItem != null)
-						interactiveItem.Click ();
+				if (ii == null || ii != _lastInteraction) {
+					Out (_lastInteraction);
 				}
-			} else if (OVRInput.GetUp (_cancelButton)) {
 
-				if (isSomethingHit) {
+				_lastInteraction = ii;
 
-					RealmInteractiveItem interactiveItem = hit.collider.GetComponent<RealmInteractiveItem> ();
-					if (interactiveItem != null)
-						interactiveItem.Back ();
-				}
+				MoveOver (_lastInteraction, hit);
+				Over (_lastInteraction);
+
+			} else {
+
+				Out (_lastInteraction);
+				_lastInteraction = null;
 			}
+		}
+
+		private void Click(RealmsInteractiveItem item) {
+
+			if(item != null)
+				item.Click ();
+		}
+
+		private void MoveOver(RealmsInteractiveItem item, RaycastHit hit) {
+
+			if (item != null)
+				item.MoveOver (hit);
+		}
+
+		private void Out(RealmsInteractiveItem item) {
+
+			if (item != null)
+				item.Out ();
+		}
+
+		private void Over(RealmsInteractiveItem item) {
+
+			if (item != null)
+				item.Over ();
 		}
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RealmGazeCursor : MonoBehaviour {
+public class RealmsGazeCursor : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject _normal;
@@ -29,7 +29,7 @@ public class RealmGazeCursor : MonoBehaviour {
 
 	public void UpdateTimer(float progress) {
 
-		//_timer.GetComponent<Renderer> ().material.SetFloat ("_ColorRampOffset", progress);
+		_timer.GetComponent<Renderer> ().material.SetFloat ("_ColorRampOffset", progress);
 	}
 
 	public enum Mode {

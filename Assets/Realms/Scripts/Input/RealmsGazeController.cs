@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RealmGazeController : MonoBehaviour {
+public class RealmsGazeController : MonoBehaviour {
 
 
 	[SerializeField]
 	private GameObject _headAnchor;
 
 	[SerializeField]
-	private RealmGazeCursor _cursor;
+	private RealmsGazeCursor _cursor;
 
-	private const float CLICK_TIMER = 0.5f;
+	private const float CLICK_TIMER = 1.0f;
 
 	private bool _isFocusing;
 	private float _focusTimer;
 	private bool _isFocusConsumed;
-	private bool _isOver;
-	private RealmInteractiveItem _lastInteraction;
+	private RealmsInteractiveItem _lastInteraction;
 
 	// Update is called once per frame
 	void Update () {
@@ -35,14 +34,13 @@ public class RealmGazeController : MonoBehaviour {
 			_cursor.transform.position = hit.point;
 			_cursor.transform.rotation = Quaternion.LookRotation (hit.normal);
 
-			RealmInteractiveItem ii = hit.collider.GetComponent<RealmInteractiveItem> ();
+			RealmsInteractiveItem ii = hit.collider.GetComponent<RealmsInteractiveItem> ();
 
 			if (ii == null)
 				return;
 
 			if (ii != _lastInteraction) {
 			
-				_isOver = false;
 				_focusTimer = 0f;
 				_isFocusConsumed = false;
 				_isFocusing = false;
@@ -52,19 +50,15 @@ public class RealmGazeController : MonoBehaviour {
 			_lastInteraction = ii;
 
 			MoveOver (_lastInteraction, hit);
-
-			if (_isOver == false) {
-				_isOver = true;
-				Over (_lastInteraction);
-			}
+			Over (_lastInteraction);
 
 			if (_lastInteraction.doShowCursor == false) {
-				_cursor.UpdateMode (RealmGazeCursor.Mode.INVISIBLE);
+				_cursor.UpdateMode (RealmsGazeCursor.Mode.INVISIBLE);
 				return;
 			}
 
 			if(_lastInteraction.isClickable == false) {
-				_cursor.UpdateMode (RealmGazeCursor.Mode.NORMAL);
+				_cursor.UpdateMode (RealmsGazeCursor.Mode.NORMAL);
 				return;
 			}
 
@@ -77,7 +71,7 @@ public class RealmGazeController : MonoBehaviour {
 
 				} else {
 
-					_cursor.UpdateMode (RealmGazeCursor.Mode.TIMER);
+					_cursor.UpdateMode (RealmsGazeCursor.Mode.TIMER);
 
 					_focusTimer -= Time.deltaTime;
 
@@ -86,7 +80,7 @@ public class RealmGazeController : MonoBehaviour {
 						_isFocusConsumed = true;
 						_focusTimer = 0f;
 						Click (_lastInteraction);
-						_cursor.UpdateMode (RealmGazeCursor.Mode.NORMAL);
+						_cursor.UpdateMode (RealmsGazeCursor.Mode.NORMAL);
 					}
 				}
 
@@ -95,42 +89,38 @@ public class RealmGazeController : MonoBehaviour {
 
 		} else {
 
-			_cursor.UpdateMode (RealmGazeCursor.Mode.NORMAL);
+			_cursor.UpdateMode (RealmsGazeCursor.Mode.NORMAL);
 			_cursor.transform.position = _headAnchor.transform.position + _headAnchor.transform.forward * 10f;
 			_cursor.transform.rotation = Quaternion.LookRotation (_cursor.transform.position - _headAnchor.transform.position);
 
-			if (_isOver) {
-				
-				_isOver = false;
-				_isFocusing = false;
-				_isFocusConsumed = false;
-				_cursor.UpdateTimer (1);
+			_isFocusing = false;
+			_isFocusConsumed = false;
+			_cursor.UpdateTimer (1);
 
-				Out (_lastInteraction);
-				_lastInteraction = null;
-			}
+			Out (_lastInteraction);
+			_lastInteraction = null;
 		}
 	}
 
-	private void Click(RealmInteractiveItem item) {
+	private void Click(RealmsInteractiveItem item) {
 
 		if(item != null)
 			item.Click ();
 	}
 
-	private void MoveOver(RealmInteractiveItem item, RaycastHit hit) {
+	private void MoveOver(RealmsInteractiveItem item, RaycastHit hit) {
 		
 		if (item != null)
 			item.MoveOver (hit);
 	}
 
-	private void Out(RealmInteractiveItem item) {
+	private void Out(RealmsInteractiveItem item) {
 
 		if (item != null)
 			item.Out ();
 	}
 
-	private void Over(RealmInteractiveItem item) {
+	private void Over(RealmsInteractiveItem item) {
 
 		if (item != null)
 			item.Over ();

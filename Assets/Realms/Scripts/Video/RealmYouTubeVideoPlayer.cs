@@ -20,13 +20,13 @@ namespace PlaysnakRealms {
 
 		private RealmYouTubePlayback _playback;
 		private YoutubeAPIManager _youtubeManager;
-		private RealmInteractiveItem _interaction;
+		private RealmsInteractiveItem _interaction;
 		private RealmPlayPauseButtonUI _playButtonUI;
 		private AudioSource _playerAudio;
 
 		void Awake() {
 
-			_interaction = gameObject.GetComponent<RealmInteractiveItem> ();
+			_interaction = gameObject.GetComponent<RealmsInteractiveItem> ();
 			_playback = gameObject.GetComponentInChildren<RealmYouTubePlayback> ();
 			_youtubeManager = gameObject.GetComponent<YoutubeAPIManager> ();
 			_playButtonUI = gameObject.GetComponentInChildren<RealmPlayPauseButtonUI> ();		

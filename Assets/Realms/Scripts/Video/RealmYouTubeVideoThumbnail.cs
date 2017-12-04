@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent (typeof(RawImage))]
-[RequireComponent (typeof(RealmInteractiveItem))]
+[RequireComponent (typeof(RealmsInteractiveItem))]
 public class RealmYouTubeVideoThumbnail : MonoBehaviour {
 
 	public event System.Action<RealmYouTubeVideoThumbnail.Data> OnClick;
@@ -17,7 +17,7 @@ public class RealmYouTubeVideoThumbnail : MonoBehaviour {
 		_display = gameObject.GetComponent<RawImage> ();
 		Debug.Assert (_display != null, "Display image is missing");
 
-		RealmInteractiveItem ii = gameObject.GetComponent<RealmInteractiveItem> ();
+		RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
 
 		if (ii != null) {
 			ii.OnClick += 

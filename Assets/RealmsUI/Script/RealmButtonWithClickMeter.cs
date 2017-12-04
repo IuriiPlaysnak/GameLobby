@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent (typeof(RealmInteractiveItem))]
+[RequireComponent (typeof(RealmsInteractiveItem))]
 [RequireComponent (typeof(GazeClickMeter))]
 [RequireComponent (typeof(ButtonWithClickMeterUI))]
 public class RealmButtonWithClickMeter : MonoBehaviour {
@@ -24,7 +24,7 @@ public class RealmButtonWithClickMeter : MonoBehaviour {
 
 		_buttonUI = GetComponent<ButtonWithClickMeterUI>();
 
-		RealmInteractiveItem gazeInteraction = gameObject.GetComponent<RealmInteractiveItem> ();
+		RealmsInteractiveItem gazeInteraction = gameObject.GetComponent<RealmsInteractiveItem> ();
 		if (gazeInteraction != null) {
 			gazeInteraction.OnOut += OnOut;
 			gazeInteraction.OnMoveOver += OnMoveOver;
