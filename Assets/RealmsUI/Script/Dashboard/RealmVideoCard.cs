@@ -24,6 +24,9 @@ public class RealmVideoCard : MonoBehaviour {
 			yield return null;
 		}
 
-		_playlist.LoadPlaylist (OutrunRealmDataProvider.videosData.playlists [0].url);
+		if (OutrunRealmDataProvider.videosData.playlists != null && OutrunRealmDataProvider.videosData.playlists.Count > 0)
+			_playlist.LoadPlaylist (OutrunRealmDataProvider.videosData.playlists [0].url);
+		else
+			Debug.Log ("Playlist is empty");
 	}
 }
