@@ -33,13 +33,13 @@ namespace Outrun {
 
 		private void OnAwake() {
 
-			foreach (var device in UnityEngine.VR.VRSettings.supportedDevices) {
+			foreach (var device in UnityEngine.XR.XRSettings.supportedDevices) {
 
 				_isOculusSupported = _isOculusSupported || (device == OCULUS_DEVICE_NAME);
 				_isOpenVRSupported = _isOpenVRSupported || (device == VIVE_DEVICE_NAME);
 			}
 
-			string deviceName = UnityEngine.VR.VRSettings.loadedDeviceName;
+			string deviceName = UnityEngine.XR.XRSettings.loadedDeviceName;
 
 			Debug.Log (deviceName);
 

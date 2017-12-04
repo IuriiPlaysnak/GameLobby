@@ -22,7 +22,6 @@ limitations under the License.
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using VR = UnityEngine.VR;
 
@@ -78,6 +77,14 @@ public class OVRCameraRig : MonoBehaviour
 	/// </summary>
 	public bool usePerEyeCameras = false;
 
+	/// <summary>
+	/// If true, all tracked anchors are updated in FixedUpdate instead of Update to favor physics fidelity.
+	/// \note: If the fixed update rate doesn't match the rendering framerate (OVRManager.display.appFramerate), the anchors will visibly judder.
+	/// </summary>
+	public bool useFixedUpdateForTracking = false;
+
+	private bool _skipUpdate = false;
+
 	private readonly string trackingSpaceName = "TrackingSpace";
 	private readonly string trackerAnchorName = "TrackerAnchor";
 	private readonly string eyeAnchorName = "EyeAnchor";
@@ -87,72 +94,65 @@ public class OVRCameraRig : MonoBehaviour
 	private Camera _leftEyeCamera;
 	private Camera _rightEyeCamera;
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-    bool correctedTrackingSpace = false;
-#endif
-
 #region Unity Messages
 	private void Awake()
 	{
+		_skipUpdate = true;
 		EnsureGameObjectIntegrity();
 	}
 
 	private void Start()
 	{
-		EnsureGameObjectIntegrity();
-
-		if (!Application.isPlaying)
-			return;
-
 		UpdateAnchors();
+	}
+
+	private void FixedUpdate()
+	{
+		if (useFixedUpdateForTracking)
+			UpdateAnchors();
 	}
 
 	private void Update()
 	{
-		EnsureGameObjectIntegrity();
-		
-		if (!Application.isPlaying)
-			return;
+		_skipUpdate = false;
 
-		UpdateAnchors();
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-
-        if (!correctedTrackingSpace)
-        {
-            //HACK: Unity 5.1.1p3 double-counts the head model on Android. Subtract it off in the reference frame.
-
-            var headModel = new Vector3(0f, OVRManager.profile.eyeHeight - OVRManager.profile.neckHeight, OVRManager.profile.eyeDepth);
-            var eyePos = -headModel + centerEyeAnchor.localRotation * headModel;
-
-            if ((eyePos - centerEyeAnchor.localPosition).magnitude > 0.01f)
-            {
-                trackingSpace.localPosition = trackingSpace.localPosition - 2f * (trackingSpace.localRotation * headModel);
-                correctedTrackingSpace = true;
-            }
-        }
-#endif
+		if (!useFixedUpdateForTracking)
+			UpdateAnchors();
 	}
 
 #endregion
 
 	private void UpdateAnchors()
 	{
+		EnsureGameObjectIntegrity();
+
+		if (!Application.isPlaying)
+			return;
+		
+		if (_skipUpdate)
+		{
+			centerEyeAnchor.FromOVRPose(OVRPose.identity, true);
+			leftEyeAnchor.FromOVRPose(OVRPose.identity, true);
+			rightEyeAnchor.FromOVRPose(OVRPose.identity, true);
+
+			return;
+		}
+
 		bool monoscopic = OVRManager.instance.monoscopic;
 
 		OVRPose tracker = OVRManager.tracker.GetPose();
 
 		trackerAnchor.localRotation = tracker.orientation;
-		centerEyeAnchor.localRotation = VR.InputTracking.GetLocalRotation(VR.VRNode.CenterEye);
-        leftEyeAnchor.localRotation = monoscopic ? centerEyeAnchor.localRotation : VR.InputTracking.GetLocalRotation(VR.VRNode.LeftEye);
-		rightEyeAnchor.localRotation = monoscopic ? centerEyeAnchor.localRotation : VR.InputTracking.GetLocalRotation(VR.VRNode.RightEye);
+		centerEyeAnchor.localRotation = UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.CenterEye);
+        leftEyeAnchor.localRotation = monoscopic ? centerEyeAnchor.localRotation : UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.LeftEye);
+		rightEyeAnchor.localRotation = monoscopic ? centerEyeAnchor.localRotation : UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.RightEye);
 		leftHandAnchor.localRotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch);
         rightHandAnchor.localRotation = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
 
 		trackerAnchor.localPosition = tracker.position;
-		centerEyeAnchor.localPosition = VR.InputTracking.GetLocalPosition(VR.VRNode.CenterEye);
-		leftEyeAnchor.localPosition = monoscopic ? centerEyeAnchor.localPosition : VR.InputTracking.GetLocalPosition(VR.VRNode.LeftEye);
-		rightEyeAnchor.localPosition = monoscopic ? centerEyeAnchor.localPosition : VR.InputTracking.GetLocalPosition(VR.VRNode.RightEye);
+		centerEyeAnchor.localPosition = UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.CenterEye);
+		leftEyeAnchor.localPosition = monoscopic ? centerEyeAnchor.localPosition : UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.LeftEye);
+		rightEyeAnchor.localPosition = monoscopic ? centerEyeAnchor.localPosition : UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.RightEye);
         leftHandAnchor.localPosition = OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch);
         rightHandAnchor.localPosition = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
 
@@ -168,13 +168,13 @@ public class OVRCameraRig : MonoBehaviour
 			trackingSpace = ConfigureRootAnchor(trackingSpaceName);
 
 		if (leftEyeAnchor == null)
-            leftEyeAnchor = ConfigureEyeAnchor(trackingSpace, VR.VRNode.LeftEye);
+            leftEyeAnchor = ConfigureEyeAnchor(trackingSpace, UnityEngine.XR.XRNode.LeftEye);
 
 		if (centerEyeAnchor == null)
-            centerEyeAnchor = ConfigureEyeAnchor(trackingSpace, VR.VRNode.CenterEye);
+            centerEyeAnchor = ConfigureEyeAnchor(trackingSpace, UnityEngine.XR.XRNode.CenterEye);
 
 		if (rightEyeAnchor == null)
-            rightEyeAnchor = ConfigureEyeAnchor(trackingSpace, VR.VRNode.RightEye);
+            rightEyeAnchor = ConfigureEyeAnchor(trackingSpace, UnityEngine.XR.XRNode.RightEye);
 
 		if (leftHandAnchor == null)
             leftHandAnchor = ConfigureHandAnchor(trackingSpace, OVRPlugin.Node.HandLeft);
@@ -226,6 +226,13 @@ public class OVRCameraRig : MonoBehaviour
 #endif
 		}
 
+		if (_centerEyeCamera.enabled == usePerEyeCameras ||
+		    _leftEyeCamera.enabled == !usePerEyeCameras ||
+		    _rightEyeCamera.enabled == !usePerEyeCameras)
+		{
+			_skipUpdate = true;
+		}
+		
 		_centerEyeCamera.enabled = !usePerEyeCameras;
 		_leftEyeCamera.enabled = usePerEyeCameras;
 		_rightEyeCamera.enabled = usePerEyeCameras;
@@ -248,9 +255,9 @@ public class OVRCameraRig : MonoBehaviour
 		return root;
 	}
 
-	private Transform ConfigureEyeAnchor(Transform root, VR.VRNode eye)
+	private Transform ConfigureEyeAnchor(Transform root, UnityEngine.XR.XRNode eye)
 	{
-		string eyeName = (eye == VR.VRNode.CenterEye) ? "Center" : (eye == VR.VRNode.LeftEye) ? "Left" : "Right";
+		string eyeName = (eye == UnityEngine.XR.XRNode.CenterEye) ? "Center" : (eye == UnityEngine.XR.XRNode.LeftEye) ? "Left" : "Right";
 		string name = eyeName + eyeAnchorName;
 		Transform anchor = transform.Find(root.name + "/" + name);
 
@@ -321,4 +328,27 @@ public class OVRCameraRig : MonoBehaviour
 
 		return anchor;
 	}
+
+	public Matrix4x4 ComputeTrackReferenceMatrix()
+	{
+		if (centerEyeAnchor == null)
+		{
+			Debug.LogError("centerEyeAnchor is required");
+			return Matrix4x4.identity;
+		}
+
+		// The ideal approach would be using UnityEngine.VR.VRNode.TrackingReference, then we would not have to depend on the OVRCameraRig. Unfortunately, it is not available in Unity 5.4.3
+
+		OVRPose headPose;
+		headPose.position = UnityEngine.XR.InputTracking.GetLocalPosition(UnityEngine.XR.XRNode.Head);
+		headPose.orientation = UnityEngine.XR.InputTracking.GetLocalRotation(UnityEngine.XR.XRNode.Head);
+
+		OVRPose invHeadPose = headPose.Inverse();
+		Matrix4x4 invHeadMatrix = Matrix4x4.TRS(invHeadPose.position, invHeadPose.orientation, Vector3.one);
+
+		Matrix4x4 ret = centerEyeAnchor.localToWorldMatrix * invHeadMatrix;
+
+		return ret;
+	}
+
 }
