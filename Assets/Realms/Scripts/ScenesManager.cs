@@ -27,6 +27,8 @@ public class ScenesManager : MonoBehaviour {
 			_enterSceneTimestamp = Time.time;
 			DontDestroyOnLoad (this.gameObject);
 
+			UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnNextSceneLoaded;
+
 		} else {
 
 			Destroy (this.gameObject);
@@ -86,8 +88,8 @@ public class ScenesManager : MonoBehaviour {
 		UnityEngine.SceneManagement.SceneManager.LoadScene((int)_nextSceneId, UnityEngine.SceneManagement.LoadSceneMode.Single);
 	}
 
-	void OnLevelWasLoaded(int level) {
-
+	void OnNextSceneLoaded (UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+	{
 		_enterSceneTimestamp = Time.time;
 		AttachBlackScreenToMainCamera ();
 		StartCoroutine (FadeIn ());
@@ -114,6 +116,10 @@ public class ScenesManager : MonoBehaviour {
 
 		_blackScreen.transform.SetParent (Camera.main.gameObject.transform);
 		_blackScreen.transform.localPosition = new Vector3 (0f, 0f, 0.3f);
+	}
+
+	void OnDestroy() {
+		UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnNextSceneLoaded;
 	}
 
 	void OnApplicationQuit() {

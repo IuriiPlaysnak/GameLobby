@@ -1,16 +1,15 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Realms\Scripts\Input\RealmsHandController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Realms\Scripts\ScenesManager.cs">
     <Files>
-      <File FileName="Assets\Realms\Scripts\Input\RealmsHandController.cs" Line="24" Column="3" />
-      <File FileName="Assets\Realms\Scripts\Input\RealmsGazeController.cs" Line="20" Column="49" />
-      <File FileName="Assets\Realms\Scripts\Input\RealmsInteractiveItem.cs" Line="55" Column="11" />
+      <File FileName="Assets\Realms\Scripts\Input\RealmsHandController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Realms\Scripts\Input\RealmsGazeController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Realms\Scripts\Input\RealmsInteractiveItem.cs" Line="1" Column="1" />
+      <File FileName="Assets\Realms\Scripts\ScenesManager.cs" Line="122" Column="77" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <RunToCursorBreakpoint file="D:\work\RealmsLobby\Assets\Realms\Scripts\Input\RealmsGazeCursor.cs" line="5" column="29" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
