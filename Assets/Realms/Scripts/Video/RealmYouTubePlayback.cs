@@ -13,11 +13,9 @@ namespace PlaysnakRealms {
 	public class RealmYouTubePlayback : MonoBehaviour {
 
 		private string videoUrl;
-		private string audioVideoUrl;
 		private bool videoIsReadyToPlay = false;
 
 		private VideoPlayer _videoPlayer;
-		private VideoPlayer _audioVideoPlayer;
 		private RequestResolver _requestResolver;
 
 		void Awake() {
@@ -26,9 +24,6 @@ namespace PlaysnakRealms {
 
 			_videoPlayer = gameObject.GetComponent<VideoPlayer> ();
 			_videoPlayer.playOnAwake = false;
-
-			_audioVideoPlayer = gameObject.AddComponent<VideoPlayer> ();
-			_audioVideoPlayer.playOnAwake = false;
 		}
 
 		public void PlayYoutubeVideo(string videoId)
@@ -41,33 +36,15 @@ namespace PlaysnakRealms {
 			StartCoroutine(_requestResolver.GetDownloadUrls(FinishLoadingUrls, videoId, false));
 		}
 
-		private bool audioDecryptDone = false;
-		private bool videoDecryptDone = false;
-
 		void FinishLoadingUrls()
 		{
 			List<VideoInfo> videoInfos = _requestResolver.videoInfos;
-			videoDecryptDone = false;
-			audioDecryptDone = false;
 
 			int maxQuality = 0;
 			foreach (VideoInfo info in videoInfos) 
 			{
 				if (info.VideoType == VideoType.Mp4)
 					maxQuality = Mathf.Max (maxQuality, info.Resolution);
-			}
-
-			foreach (VideoInfo info in videoInfos)
-			{
-				if (info.VideoType == VideoType.Mp4 && info.Resolution == maxQuality) {
-					if (info.RequiresDecryption) {
-						//The string is the video url with audio
-						StartCoroutine(_requestResolver.DecryptDownloadUrl (DecryptAudioDone, info));
-					} else {
-						audioVideoUrl = info.DownloadUrl;
-					}
-					break;
-				}
 			}
 
 			foreach (VideoInfo info in videoInfos) 
@@ -84,22 +61,10 @@ namespace PlaysnakRealms {
 			}
 		}
 
-		private void DecryptAudioDone(string url)
-		{
-			audioVideoUrl = url;
-			audioDecryptDone = true;
-
-			if (videoDecryptDone)
-				videoIsReadyToPlay = true;
-		}
-
 		private void DecryptVideoDone(string url)
 		{
 			videoUrl = url;
-			videoDecryptDone = true;
-
-			if (audioDecryptDone)
-				videoIsReadyToPlay = true;
+			videoIsReadyToPlay = true;
 		}
 
 		bool checkIfVideoArePrepared = false;
@@ -114,41 +79,22 @@ namespace PlaysnakRealms {
 				_videoPlayer.url = videoUrl;
 				checkIfVideoArePrepared = true;
 				_videoPlayer.Prepare ();
-
-				_audioVideoPlayer.source = VideoSource.Url;
-				_audioVideoPlayer.url = audioVideoUrl;
-				_audioVideoPlayer.Prepare ();
 			}
 
 			if (checkIfVideoArePrepared) {
 				checkIfVideoArePrepared = false;
-				videoPrepared = false;
 				_videoPlayer.prepareCompleted += VideoPrepared;
-				audioPrepared = false;
-				_audioVideoPlayer.prepareCompleted += AudioPrepared;
 			}
-		}
-
-		private bool videoPrepared;
-		private bool audioPrepared;
-
-		void AudioPrepared(VideoPlayer vPlayer){
-			_audioVideoPlayer.prepareCompleted -= AudioPrepared;
-			audioPrepared = true;
-			if (audioPrepared && videoPrepared)
-				Play ();
 		}
 
 		void VideoPrepared(VideoPlayer vPlayer){
 			_videoPlayer.prepareCompleted -= VideoPrepared;
-			videoPrepared = true;
-			if (audioPrepared && videoPrepared)
-				Play ();
+			Play ();
 		}
 
 		private void Play(){
 			_videoPlayer.loopPointReached += PlaybackDone;
-			StartCoroutine(WaitAndPlay());
+			_videoPlayer.Play();
 		}
 
 		private void PlaybackDone(VideoPlayer vPlayer){
@@ -156,31 +102,15 @@ namespace PlaysnakRealms {
 			OnVideoFinished ();
 		}
 
-		IEnumerator WaitAndPlay()
-		{
-			_audioVideoPlayer.Play();
-			yield return new WaitForSeconds(0.35f);
-
-			_videoPlayer.Play();
-			if (this.GetComponent<VideoController>() != null)
-			{
-				this.GetComponent<VideoController>().HideLoading();
-			}
-		}
-
-
 		public event System.Action<VideoPlayer> OnVideoComplete;
-		private void OnVideoFinished(){
+		private void OnVideoFinished() {
+			
 			if (_videoPlayer.isPrepared) {
-				Debug.Log ("Finished");
 				if (_videoPlayer.isLooping)
 				{
 					_videoPlayer.time = 0;
 					_videoPlayer.frame = 0;
-					_audioVideoPlayer.time = 0;
-					_audioVideoPlayer.frame = 0;
 					_videoPlayer.Play();
-					_audioVideoPlayer.Play();
 				}
 			}
 
@@ -191,13 +121,11 @@ namespace PlaysnakRealms {
 		public void Pause() {
 
 			_videoPlayer.Pause ();
-			_audioVideoPlayer.Pause ();
 		}
 
 		public void Resume() {
 
 			_videoPlayer.Play ();
-			_audioVideoPlayer.Play ();
 		}
 
 		public bool isPlaying {

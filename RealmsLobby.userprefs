@@ -1,9 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Realms\Scripts\Data\RealmsFeedXMLDataSource.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Realms\Scripts\Video\RealmYouTubePlayback.cs">
     <Files>
-      <File FileName="Assets\Realms\Scripts\Data\RealmsContentProvider.cs" Line="150" Column="28" />
-      <File FileName="Assets\Realms\Scripts\Data\RealmsFeedXMLDataSource.cs" Line="24" Column="76" />
+      <File FileName="Assets\Realms\Scripts\Video\RealmYouTubePlayback.cs" Line="172" Column="43" />
+      <File FileName="Assets\Realms\Scripts\Video\RealmYouTubeVideoPlayer.cs" Line="29" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
