@@ -3,55 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent (typeof(RawImage))]
-[RequireComponent (typeof(RealmsInteractiveItem))]
-public class RealmYouTubeVideoThumbnail : MonoBehaviour {
+namespace PlaysnakRealms {
 
-	public event System.Action<RealmYouTubeVideoThumbnail.Data> OnClick;
+	[RequireComponent (typeof(RawImage))]
+	[RequireComponent (typeof(RealmsInteractiveItem))]
+	public class RealmYouTubeVideoThumbnail : MonoBehaviour {
 
-	private RawImage _display;
-	private RealmYouTubeVideoThumbnail.Data _data;
+		public event System.Action<RealmYouTubeVideoThumbnail.Data> OnClick;
 
-	void Awake() {
+		private RawImage _display;
+		private RealmYouTubeVideoThumbnail.Data _data;
 
-		_display = gameObject.GetComponent<RawImage> ();
-		Debug.Assert (_display != null, "Display image is missing");
+		void Awake() {
 
-		RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
+			_display = gameObject.GetComponent<RawImage> ();
+			Debug.Assert (_display != null, "Display image is missing");
 
-		if (ii != null) {
-			ii.OnClick += 
-				() => { 
-				if (OnClick != null)
-					OnClick (_data); 
-			};
+			RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
+
+			if (ii != null) {
+				ii.OnClick += 
+					() => { 
+					if (OnClick != null)
+						OnClick (_data); 
+				};
+			}
 		}
-	}
 
-	public void SetData(string videoId, int indexInPlaylist, YoutubeTumbnails thumbnails ) {
+		public void SetData(string videoId, int indexInPlaylist, YoutubeTumbnails thumbnails ) {
 
-		_data = new Data () { 
-			videoId = videoId,
-			videoIndexInPlaylist = indexInPlaylist,
-			thumnails = thumbnails
-		};
+			_data = new Data () { 
+				videoId = videoId,
+				videoIndexInPlaylist = indexInPlaylist,
+				thumnails = thumbnails
+			};
 
-		Load (thumbnails.defaultThumbnail.url);
-	}
+			Load (thumbnails.defaultThumbnail.url);
+		}
 
-	private void Load(string url) {
+		private void Load(string url) {
 
-		ResourceManager.LoadImage (url, OnImageLoaded);
-	}
+			RealmsResourceManager.LoadImage (url, OnImageLoaded);
+		}
 
-	private void OnImageLoaded(Texture2D texture) {
-		_display.texture = texture;
-	}
+		private void OnImageLoaded(Texture2D texture) {
+			_display.texture = texture;
+		}
 
-	public struct Data {
+		public struct Data {
 
-		public int videoIndexInPlaylist;
-		public string videoId;
-		public YoutubeTumbnails thumnails;
+			public int videoIndexInPlaylist;
+			public string videoId;
+			public YoutubeTumbnails thumnails;
+		}
 	}
 }

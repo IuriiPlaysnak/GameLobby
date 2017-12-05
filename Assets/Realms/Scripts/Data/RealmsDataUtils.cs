@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace PlaysnakRealms
 {
-	public class DataUtils
+	public class RealmsDataUtils
 	{
 		static public string CleanUpPlaylistURL(string originalHTML) {
 

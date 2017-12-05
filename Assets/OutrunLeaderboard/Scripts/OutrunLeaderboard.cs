@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using PlaysnakRealms;
 
 namespace Outrun
 {
@@ -61,22 +62,22 @@ namespace Outrun
 			if (_instance == null) 
 				_instance = this;
 
-			PlatformsManager.OnInitialized += OnPlatformInitialized;
+			RealmsPlatformsManager.OnInitialized += OnPlatformInitialized;
 		}
 
-		void OnPlatformInitialized (PlatformsManager.PlatformType platformType)
+		void OnPlatformInitialized (RealmsPlatformsManager.PlatformType platformType)
 		{
 			switch (platformType) {
 
-			case PlatformsManager.PlatformType.OCULUS:
+			case RealmsPlatformsManager.PlatformType.OCULUS:
 				_dataSource = DataSource.OCULUS;
 				break;
 
-			case PlatformsManager.PlatformType.STEAM:
+			case RealmsPlatformsManager.PlatformType.STEAM:
 				_dataSource = DataSource.STEAM;
 				break;
 
-			case PlatformsManager.PlatformType.LOCAL:
+			case RealmsPlatformsManager.PlatformType.LOCAL:
 				_dataSource = DataSource.LOCAL;
 				break;
 			}

@@ -20,12 +20,12 @@ public class RealmVideoCard : MonoBehaviour {
 
 	private IEnumerator Init() {
 
-		while (OutrunRealmDataProvider.isLoadingComlete == false) {
+		while (RealmsContentProvider.isLoadingComlete == false) {
 			yield return null;
 		}
 
-		if (OutrunRealmDataProvider.videosData.playlists != null && OutrunRealmDataProvider.videosData.playlists.Count > 0)
-			_playlist.LoadPlaylist (OutrunRealmDataProvider.videosData.playlists [0].url);
+		if (RealmsContentProvider.videosData.playlists != null && RealmsContentProvider.videosData.playlists.Count > 0)
+			_playlist.LoadPlaylist (RealmsContentProvider.videosData.playlists [0].url);
 		else
 			Debug.Log ("Playlist is empty");
 	}

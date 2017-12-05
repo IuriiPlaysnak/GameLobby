@@ -5,14 +5,14 @@ using System;
 
 namespace PlaysnakRealms {
 	
-	public class OutrunRealmJSONDataSource : AbstractDataSource  {
+	public class RealmsJSONDataSource : RealmsAbstractDataSource  {
 
 		#region IOutrunRealmDataSource implementation
 
 		override public void Load (string url)
 		{
 			OnContentItemLoadingStart ();
-			OutrunRealmDataProvider.instance.StartCoroutine (LoadSettingsJSON (url));
+			RealmsContentProvider.instance.StartCoroutine (LoadSettingsJSON (url));
 		}
 
 		private IEnumerator LoadSettingsJSON(string url) {
@@ -30,7 +30,7 @@ namespace PlaysnakRealms {
 
 				Debug.Log ("Settings loading complete!");
 
-				OutrunRealmDataProvider.SettingData result = JsonUtility.FromJson<OutrunRealmDataProvider.SettingData> (request.text);
+				RealmsContentProvider.SettingData result = JsonUtility.FromJson<RealmsContentProvider.SettingData> (request.text);
 
 				OnContentItemLoadingComplete ();
 			}

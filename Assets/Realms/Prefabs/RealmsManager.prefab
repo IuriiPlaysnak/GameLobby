@@ -75,10 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8385ed95215879848a7fed249794ea66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sourceType: 1
   _sourceFormat: 2
-  _localPath: http://localhost:8080/OutrunRealmSettingsLocal.json
-  _remotePath: http://hayabu4i.com/realms/OutrunRealmSettingsRemote.json
-  _jsonUrl: 
+  _jsonUrl: http://hayabu4i.com/realms/OutrunRealmSettingsRemote.json
   _htmlURL: https://outrun.neonseoul.com/in-game/
   _feedURL: https://outrun.neonseoul.com/feed/

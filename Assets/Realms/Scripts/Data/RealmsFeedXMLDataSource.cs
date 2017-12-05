@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace PlaysnakRealms {
 
-	public class RealmsFeedXMLDataSource : AbstractDataSource
+	public class RealmsFeedXMLDataSource : RealmsAbstractDataSource
 	{
 
 		#region AbstractDataSource implementation
@@ -16,10 +16,10 @@ namespace PlaysnakRealms {
 			url += string.Format ("?{0}", DateTime.Now.ToLongDateString());
 
 			OnContentItemLoadingStart ();
-			OutrunRealmDataProvider.DownloadTextFile(url, ParseFeedXML);
+			RealmsContentProvider.DownloadTextFile(url, ParseFeedXML);
 
 			OnContentItemLoadingStart ();
-			OutrunRealmDataProvider.DownloadTextFile(@"https://outrun.neonseoul.com/in-game/", ParseMainHTML);
+			RealmsContentProvider.DownloadTextFile(@"https://outrun.neonseoul.com/in-game/", ParseMainHTML);
 		}
 
 		#endregion
@@ -40,7 +40,7 @@ namespace PlaysnakRealms {
 
 		private void ParseItem(XElement item) {
 		
-			OutrunRealmDataProvider.ImageData data = new OutrunRealmDataProvider.ImageData ();
+			RealmsContentProvider.ImageData data = new RealmsContentProvider.ImageData ();
 
 			data.title = item
 				.Descendants ()
@@ -69,15 +69,15 @@ namespace PlaysnakRealms {
 				.Replace("</em>", string.Empty)
 				;
 
-			data.description = DataUtils.ReplaceASCIICodesWithUTF (descriptionText);
+			data.description = RealmsDataUtils.ReplaceASCIICodesWithUTF (descriptionText);
 
 			gallery.images.Add (data);
 		}
 
 		private void ParseMainHTML(string text) {
 
-			text = DataUtils.CleanUpHTML (text);
-			text = DataUtils.CleanUpPlaylistURL (text);
+			text = RealmsDataUtils.CleanUpHTML (text);
+			text = RealmsDataUtils.CleanUpPlaylistURL (text);
 
 			XDocument xdoc = XDocument.Parse (text);
 			var nodes = xdoc
@@ -87,14 +87,14 @@ namespace PlaysnakRealms {
 				;
 
 			nodes
-				.Where (node => node.Attribute ("class").Value == OutrunRealmHTMLDataSource.YOUTUBE_PLAYLIST_CLASS)
+				.Where (node => node.Attribute ("class").Value == RealmsHTMLDataSource.YOUTUBE_PLAYLIST_CLASS)
 				.ToList ()
 				.ForEach (node => ParsePlaylist(node));
 		}
 
 		private void ParsePlaylist(XElement playlistNode) {
 
-			OutrunRealmDataProvider.PlaylistData playlist = new OutrunRealmDataProvider.PlaylistData ();
+			RealmsContentProvider.PlaylistData playlist = new RealmsContentProvider.PlaylistData ();
 			playlist.url = playlistNode.Attribute ("href").Value;
 			videos.playlists.Add (playlist);
 

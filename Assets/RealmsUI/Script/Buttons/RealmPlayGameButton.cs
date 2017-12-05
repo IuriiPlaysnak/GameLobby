@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 
-public class RealmPlayGameButton : MonoBehaviour
-{
-    public UnityEngine.UI.Text notEntitledMessage;
+namespace PlaysnakRealms {
 
-	public void PlayGame ()
+	public class RealmPlayGameButton : MonoBehaviour
 	{
-		if (Outrun.PlatformsManager.isEntitled == false) {
-			Debug.LogError ("Player is not entitled");
-			return;
-		}
+	    public UnityEngine.UI.Text notEntitledMessage;
 
-		ScenesManager.LoadScene(ScenesManager.SceneID.GAME);
-    }
+		public void PlayGame ()
+		{
+			if (RealmsPlatformsManager.isEntitled == false) {
+				Debug.LogError ("Player is not entitled");
+				return;
+			}
+
+			ScenesManager.LoadScene(ScenesManager.SceneID.GAME);
+	    }
+	}
 }

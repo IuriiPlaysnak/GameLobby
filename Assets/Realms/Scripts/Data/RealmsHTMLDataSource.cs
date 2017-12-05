@@ -8,7 +8,7 @@ using System;
 
 namespace PlaysnakRealms {
 
-	public class OutrunRealmHTMLDataSource : AbstractDataSource {
+	public class RealmsHTMLDataSource : RealmsAbstractDataSource {
 		
 		private const string IMAGE_CLASS_PREFIX = "et_pb_gallery_image ";
 		private const string BLOG_POST_CLASS_PREFIX = "et_pb_post ";
@@ -19,7 +19,7 @@ namespace PlaysnakRealms {
 			Debug.Log ("OutrunRealmHTMLDataSource");
 
 			url += string.Format ("?{0}", DateTime.Now.ToLongDateString());
-			OutrunRealmDataProvider.DownloadTextFile(url, ParseMainHTML);
+			RealmsContentProvider.DownloadTextFile(url, ParseMainHTML);
 		}
 
 		private void ParseMainHTML(string text) {
@@ -34,8 +34,8 @@ namespace PlaysnakRealms {
 
 			#endif
 
-			text = DataUtils.CleanUpHTML (text);
-			text = DataUtils.CleanUpPlaylistURL (text);
+			text = RealmsDataUtils.CleanUpHTML (text);
+			text = RealmsDataUtils.CleanUpPlaylistURL (text);
 
 			#if UNITY_EDITOR
 
@@ -84,7 +84,7 @@ namespace PlaysnakRealms {
 					.Value
 					;
 			
-			OutrunRealmDataProvider.DownloadTextFile(blogPostURL, ParseBlogPostHTML);
+			RealmsContentProvider.DownloadTextFile(blogPostURL, ParseBlogPostHTML);
 		}
 
 		private void ParseBlogPostHTML(string text) {
@@ -93,8 +93,8 @@ namespace PlaysnakRealms {
 			//System.IO.File.WriteAllText(@"d:/blog_org.xml", text);
 			#endif
 
-			text = DataUtils.CleanUpHTML (text);
-			text = DataUtils.CleaupContent (text);
+			text = RealmsDataUtils.CleanUpHTML (text);
+			text = RealmsDataUtils.CleaupContent (text);
 
 			#if UNITY_EDITOR
 			//System.IO.File.WriteAllText(@"d:/blog.xml", text);
@@ -113,7 +113,7 @@ namespace PlaysnakRealms {
 
 	//		Debug.Log ("parse blog");
 
-			OutrunRealmDataProvider.ImageData data = new OutrunRealmDataProvider.ImageData();
+			RealmsContentProvider.ImageData data = new RealmsContentProvider.ImageData();
 
 			data.url = 
 				blogPostNode
@@ -153,7 +153,7 @@ namespace PlaysnakRealms {
 
 			OnContentItemLoadingStart ();
 
-			OutrunRealmDataProvider.ImageData data = new OutrunRealmDataProvider.ImageData();
+			RealmsContentProvider.ImageData data = new RealmsContentProvider.ImageData();
 
 			foreach (var node in imageNode.Descendants()) {
 
@@ -183,7 +183,7 @@ namespace PlaysnakRealms {
 
 			OnContentItemLoadingStart ();
 
-			OutrunRealmDataProvider.PlaylistData playlist = new OutrunRealmDataProvider.PlaylistData ();
+			RealmsContentProvider.PlaylistData playlist = new RealmsContentProvider.PlaylistData ();
 			playlist.url = playlistNode.Attribute ("href").Value;
 			videos.playlists.Add (playlist);
 

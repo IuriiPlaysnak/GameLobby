@@ -2,162 +2,165 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RealmImagesCard : MonoBehaviour {
+namespace PlaysnakRealms {
 
-	private const float DEFAULT_AUTOPLAY_DELAY = 5f;
+	public class RealmImagesCard : MonoBehaviour {
 
-	private const float FULL_TEXT_HEIGHT = 1080;
-	private const float SHORT_TEXT_HEIGHT = 200;
-	private const float HIDDEN_TEXT_HEIGHT = 0;
+		private const float DEFAULT_AUTOPLAY_DELAY = 5f;
 
-	[SerializeField]
-	private GameObject _description;
+		private const float FULL_TEXT_HEIGHT = 1080;
+		private const float SHORT_TEXT_HEIGHT = 200;
+		private const float HIDDEN_TEXT_HEIGHT = 0;
 
-	[SerializeField]
-	private List<RealmsInteractiveItem> _buttons;
+		[SerializeField]
+		private GameObject _description;
 
-	private RealmGallery _gallery;
-	private RealmAutoplayController _autoplay;
+		[SerializeField]
+		private List<RealmsInteractiveItem> _buttons;
 
-	void Awake() {
+		private RealmGallery _gallery;
+		private RealmAutoplayController _autoplay;
 
-		_gallery = gameObject.GetComponent<RealmGallery> ();
-		Debug.Assert (_gallery != null, "Gallery is missing");
+		void Awake() {
 
-		_autoplay = gameObject.GetComponent<RealmAutoplayController> ();
-		if (_autoplay == null) {
-			_autoplay = gameObject.AddComponent<RealmAutoplayController> ();
-			_autoplay.delay = DEFAULT_AUTOPLAY_DELAY;
-		}
-	}
+			_gallery = gameObject.GetComponent<RealmGallery> ();
+			Debug.Assert (_gallery != null, "Gallery is missing");
 
-	private System.Action AfterDataLoadedInit;
-	void Start () {
-
-		_autoplay.Stop ();
-		AfterDataLoadedInit = InitInteractions;
-		StartCoroutine (Init ());
-	}
-
-	private IEnumerator Init() {
-
-		while (OutrunRealmDataProvider.isLoadingComlete == false)
-			yield return null;
-
-		if (AfterDataLoadedInit != null)
-			AfterDataLoadedInit ();
-
-		_gallery.SetImages (OutrunRealmDataProvider.galleryData.images, true);
-	}
-
-	void Update () {
-
-		if (_isAnimating)
-			AnimationUpdate ();
-	}
-
-	private void InitInteractions() {
-
-		AfterDataLoadedInit = null;
-
-		_gallery.OnImageReady += OnGalleryImageLoaded;
-
-		RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
-		if (ii != null) {
-			ii.OnOver += OnOver;
-			ii.OnOut += OnOut;
-			ii.OnMoveOver += OnMoveOver;
+			_autoplay = gameObject.GetComponent<RealmAutoplayController> ();
+			if (_autoplay == null) {
+				_autoplay = gameObject.AddComponent<RealmAutoplayController> ();
+				_autoplay.delay = DEFAULT_AUTOPLAY_DELAY;
+			}
 		}
 
-		foreach (var button in _buttons) {
-			button.OnOver += () => { _autoplay.Pause (); };
-			button.OnOut += () => { _autoplay.Resume (); };
+		private System.Action AfterDataLoadedInit;
+		void Start () {
+
+			_autoplay.Stop ();
+			AfterDataLoadedInit = InitInteractions;
+			StartCoroutine (Init ());
 		}
 
-		_autoplay.OnComplete += OnAutoplayComplete;
-	}
+		private IEnumerator Init() {
 
-	public void OnPrevButtonClick ()
-	{
-		_autoplay.Stop ();
-		_gallery.PrevImage ();
-	}
+			while (RealmsContentProvider.isLoadingComlete == false)
+				yield return null;
 
-	public void OnNextButtonClick ()
-	{
-		_autoplay.Stop ();
-		_gallery.NextImage ();
-	}
+			if (AfterDataLoadedInit != null)
+				AfterDataLoadedInit ();
 
-
-	void OnGalleryImageLoaded ()
-	{
-		_autoplay.Start ();
-	}
-
-	void OnAutoplayComplete ()
-	{
-		_autoplay.Stop ();
-		_gallery.NextImage ();
-	}
-
-	void OnMoveOver (RaycastHit hit)
-	{
-		_autoplay.Pause ();
-
-		Vector3 localColliderSize;
-		Vector3 localHitPoint;
-
-		RealmsInteractiveItem.GetLocalHitData (hit, out localColliderSize, out localHitPoint);
-
-		Canvas.ForceUpdateCanvases ();
-
-		float y = (localHitPoint.y + localColliderSize.y / 2) / localColliderSize.y;
-
-		if (y < 0.2f) {
-			AnimateText(FULL_TEXT_HEIGHT);
-
-		} else if(y > 0.9f) {
-
-			AnimateText(SHORT_TEXT_HEIGHT);
+			_gallery.SetImages (RealmsContentProvider.galleryData.images, true);
 		}
 
-		Canvas.ForceUpdateCanvases ();
-	}
+		void Update () {
 
-	void OnOut ()
-	{
-		_autoplay.Resume ();
-		AnimateText(HIDDEN_TEXT_HEIGHT);
-	}
+			if (_isAnimating)
+				AnimationUpdate ();
+		}
 
-	void OnOver ()
-	{
-		_autoplay.Pause ();
-        if(_newSize.y < SHORT_TEXT_HEIGHT)
-    		AnimateText(SHORT_TEXT_HEIGHT);
-	}
+		private void InitInteractions() {
 
-	private Vector2 _newSize;
-	private bool _isAnimating;
-	private void AnimateText(float newHeight)
-    {
-		_isAnimating = true;
-		_newSize = new Vector2 ((_description.transform as RectTransform).sizeDelta.x, newHeight);
-	}
+			AfterDataLoadedInit = null;
 
-	private void AnimationUpdate() {
+			_gallery.OnImageReady += OnGalleryImageLoaded;
 
-		(_description.transform as RectTransform).sizeDelta = 
-			Vector2.Lerp(
-				(_description.transform as RectTransform).sizeDelta
-				, _newSize
-				, 0.1f
-			);
+			RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
+			if (ii != null) {
+				ii.OnOver += OnOver;
+				ii.OnOut += OnOut;
+				ii.OnMoveOver += OnMoveOver;
+			}
 
-		if (Vector2.Distance ((_description.transform as RectTransform).sizeDelta, _newSize) < 10) {
-			(_description.transform as RectTransform).sizeDelta = _newSize;
-			_isAnimating = false;
+			foreach (var button in _buttons) {
+				button.OnOver += () => { _autoplay.Pause (); };
+				button.OnOut += () => { _autoplay.Resume (); };
+			}
+
+			_autoplay.OnComplete += OnAutoplayComplete;
+		}
+
+		public void OnPrevButtonClick ()
+		{
+			_autoplay.Stop ();
+			_gallery.PrevImage ();
+		}
+
+		public void OnNextButtonClick ()
+		{
+			_autoplay.Stop ();
+			_gallery.NextImage ();
+		}
+
+
+		void OnGalleryImageLoaded ()
+		{
+			_autoplay.Start ();
+		}
+
+		void OnAutoplayComplete ()
+		{
+			_autoplay.Stop ();
+			_gallery.NextImage ();
+		}
+
+		void OnMoveOver (RaycastHit hit)
+		{
+			_autoplay.Pause ();
+
+			Vector3 localColliderSize;
+			Vector3 localHitPoint;
+
+			RealmsInteractiveItem.GetLocalHitData (hit, out localColliderSize, out localHitPoint);
+
+			Canvas.ForceUpdateCanvases ();
+
+			float y = (localHitPoint.y + localColliderSize.y / 2) / localColliderSize.y;
+
+			if (y < 0.2f) {
+				AnimateText(FULL_TEXT_HEIGHT);
+
+			} else if(y > 0.9f) {
+
+				AnimateText(SHORT_TEXT_HEIGHT);
+			}
+
+			Canvas.ForceUpdateCanvases ();
+		}
+
+		void OnOut ()
+		{
+			_autoplay.Resume ();
+			AnimateText(HIDDEN_TEXT_HEIGHT);
+		}
+
+		void OnOver ()
+		{
+			_autoplay.Pause ();
+	        if(_newSize.y < SHORT_TEXT_HEIGHT)
+	    		AnimateText(SHORT_TEXT_HEIGHT);
+		}
+
+		private Vector2 _newSize;
+		private bool _isAnimating;
+		private void AnimateText(float newHeight)
+	    {
+			_isAnimating = true;
+			_newSize = new Vector2 ((_description.transform as RectTransform).sizeDelta.x, newHeight);
+		}
+
+		private void AnimationUpdate() {
+
+			(_description.transform as RectTransform).sizeDelta = 
+				Vector2.Lerp(
+					(_description.transform as RectTransform).sizeDelta
+					, _newSize
+					, 0.1f
+				);
+
+			if (Vector2.Distance ((_description.transform as RectTransform).sizeDelta, _newSize) < 10) {
+				(_description.transform as RectTransform).sizeDelta = _newSize;
+				_isAnimating = false;
+			}
 		}
 	}
 }

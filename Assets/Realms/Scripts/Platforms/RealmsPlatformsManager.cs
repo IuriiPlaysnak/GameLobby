@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Outrun {
+namespace PlaysnakRealms {
 
-	public class PlatformsManager : MonoBehaviour {
+	public class RealmsPlatformsManager : MonoBehaviour {
 
 		private const string OCULUS_DEVICE_NAME = "Oculus";
 		private const string VIVE_DEVICE_NAME = "OpenVR";
 
 		static public event System.Action<PlatformType> OnInitialized;
 
-		private static PlatformsManager _instance;
+		private static RealmsPlatformsManager _instance;
 		private bool _isEntitled;
 
 		void Awake() {
