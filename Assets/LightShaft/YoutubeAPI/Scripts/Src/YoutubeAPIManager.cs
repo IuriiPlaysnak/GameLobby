@@ -24,8 +24,7 @@ public class YoutubeAPIManager : MonoBehaviour {
      * 
      * */
 
-//    private const string APIKey = "AIzaSyDD-lxGLHsBIFPFPt2i31fc0tAHGeAb8mc";
-	private const string APIKey = "AIzaSyByd1nK9O2tejhDtfNU8Ds-BObnqPagKWM";
+    private const string APIKey = "AIzaSyDD-lxGLHsBIFPFPt2i31fc0tAHGeAb8mc";
 
     public void GetVideoData(string videoId, Action<YoutubeData> callback)
     {
@@ -338,7 +337,6 @@ public class YoutubeAPIManager : MonoBehaviour {
     }
 }
 
-[System.Serializable]
 public class YoutubeData
 {
     public YoutubeSnippet snippet;
@@ -347,7 +345,6 @@ public class YoutubeData
     public string id;
 }
 
-[System.Serializable]
 public class YoutubeComments{
     public string authorDisplayName;
     public string authorProfileImageUrl;
@@ -363,14 +360,12 @@ public class YoutubeComments{
     public string updatedAt;
 }
 
-[System.Serializable]
 public class YoutubePlaylistItems
 {
     public string videoId;
     public YoutubeSnippet snippet;
 }
 
-[System.Serializable]
 public class YoutubeChannel
 {
     public string id;

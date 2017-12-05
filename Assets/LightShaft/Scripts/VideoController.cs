@@ -301,7 +301,13 @@ public class VideoController : MonoBehaviour
             if (videoSeekDone && videoAudioSeekDone)
             {
                 sourceVideo.GetComponent<HighQualityPlayback>().isSyncing = false;
+                long frame = sourceVideo.frame;
+                sourceVideo.frame = frame;
+                sourceAudioVideo.frame = frame;
                 StartCoroutine(SeekFinished());
+                
+                //HideLoading();
+                //Play();
             }
         }
         else

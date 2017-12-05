@@ -166,13 +166,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoId: bc0sJvtKrRM
   videoQuality: 2
-  useBestQualityAvailable: 0
   useNewUnityPlayer: 1
   unityVideoPlayer: {fileID: 328218827970523462}
   playOnStart: 1
   noHD: 0
   audioVplayer: {fileID: 328503429229291478}
   isSyncing: 0
+  syncIssue: 0
 --- !u!114 &114721272502972544
 MonoBehaviour:
   m_ObjectHideFlags: 1

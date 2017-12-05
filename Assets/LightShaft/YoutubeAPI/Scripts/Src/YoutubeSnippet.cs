@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class YoutubeSnippet  {
 
     public string publishedAt;
@@ -15,7 +14,6 @@ public class YoutubeSnippet  {
     public string categoryId;
 }
 
-[System.Serializable]
 public class YoutubeTumbnails
 {
     public YoutubeThumbnailData defaultThumbnail;
@@ -24,7 +22,6 @@ public class YoutubeTumbnails
     public YoutubeThumbnailData standardThumbnail;
 }
 
-[System.Serializable]
 public class YoutubeThumbnailData
 {
     public string url;

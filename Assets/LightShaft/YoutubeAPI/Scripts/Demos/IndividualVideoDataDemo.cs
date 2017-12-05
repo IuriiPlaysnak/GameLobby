@@ -27,10 +27,6 @@ public class IndividualVideoDataDemo : MonoBehaviour {
 
     void OnFinishLoadingData(YoutubeData result)
     {
-
-		string json = JsonUtility.ToJson (result);
-		Debug.Log (json);
-
         UI_title.text = result.snippet.title;
         UI_description.text = result.snippet.description;
         UI_duration.text = "Duration: "+result.contentDetails.duration.Replace("PT", "");

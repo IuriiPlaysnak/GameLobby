@@ -72,16 +72,17 @@ public class SimplePlayback : MonoBehaviour {
 		//used this to play in main thread.
 		if (videoAreReadyToPlay) {
 			videoAreReadyToPlay = false;
-			//play using the old method
-			if (!useNewUnityPlayer)
-				StartCoroutine (StartVideo ());
-			else {
-				Debug.Log ("Play!!" + videoUrl);
-				unityVideoPlayer.source = VideoSource.Url;
-				unityVideoPlayer.url = videoUrl;
-				checkIfVideoArePrepared = true;
-				unityVideoPlayer.Prepare ();
-			}
+            //play using the old method
+            if (!useNewUnityPlayer)
+                StartHandheldVideo();
+            else
+            {
+                Debug.Log("Play!!" + videoUrl);
+                unityVideoPlayer.source = VideoSource.Url;
+                unityVideoPlayer.url = videoUrl;
+                checkIfVideoArePrepared = true;
+                unityVideoPlayer.Prepare();
+            }
 		}
 
 		if (checkIfVideoArePrepared) {
@@ -125,12 +126,11 @@ public class SimplePlayback : MonoBehaviour {
 
 
 
-	IEnumerator StartVideo(){
+	void StartHandheldVideo(){
 #if UNITY_IPHONE || UNITY_ANDROID
-		Handheld.PlayFullScreenMovie (videoUrl);
+        HandheldPlayback deviceplayer = gameObject.AddComponent<HandheldPlayback>();
+        deviceplayer.PlayVideo(videoUrl, OnVideoFinished);
 #endif
-		yield return new WaitForSeconds (1.4f);
-		OnVideoFinished ();
 	}
 
 	public void OnVideoFinished(){
