@@ -16,7 +16,7 @@ namespace PlaysnakRealms {
 			url += string.Format ("?{0}", DateTime.Now.ToLongDateString());
 
 			LoadFeedXML (url);
-			LoadVideosHTML (@"https://outrun.neonseoul.com/in-game/");
+			LoadVideosHTML (@"https://outrun.neonseoul.com/in-game-videos/");
 		}
 
 		#endregion
