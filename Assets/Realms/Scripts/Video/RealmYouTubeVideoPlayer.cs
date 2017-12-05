@@ -6,7 +6,6 @@ namespace PlaysnakRealms {
 
 	[RequireComponent (typeof(YoutubeAPIManager))]
 	[RequireComponent (typeof(RealmYouTubePlayback))]
-	[RequireComponent (typeof(AudioSource))]
 	public class RealmYouTubeVideoPlayer : MonoBehaviour {
 
 		[SerializeField]
