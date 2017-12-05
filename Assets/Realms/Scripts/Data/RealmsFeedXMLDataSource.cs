@@ -3,28 +3,23 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-
 
 namespace PlaysnakRealms {
 
-	public class RealmsFeedXMLDataSource : IOutrunRealmDataSource
+	public class RealmsFeedXMLDataSource : AbstractDataSource
 	{
-		public event Action<OutrunRealmDataProvider.SettingData> OnLoadingComplete;
 
-		OutrunRealmDataProvider.GalleryData _gallery;
+		#region AbstractDataSource implementation
 
-		#region IOutrunRealmDataSource implementation
-
-		void IOutrunRealmDataSource.Load (string url)
+		override public void Load (string url)
 		{
 			url += string.Format ("?{0}", DateTime.Now.ToLongDateString());
 
-			_gallery = new OutrunRealmDataProvider.GalleryData ();
-			_gallery.images = new List<OutrunRealmDataProvider.ImageData> ();
-
+			OnContentItemLoadingStart ();
 			OutrunRealmDataProvider.DownloadTextFile(url, ParseFeedXML);
+
+			OnContentItemLoadingStart ();
+			OutrunRealmDataProvider.DownloadTextFile(@"https://outrun.neonseoul.com/in-game/", ParseMainHTML);
 		}
 
 		#endregion
@@ -39,12 +34,8 @@ namespace PlaysnakRealms {
 				.ToList ()
 				.ForEach (node => ParseItem(node))
 				;
-			
-			OutrunRealmDataProvider.SettingData result = new OutrunRealmDataProvider.SettingData ();
-			result.galleryData = _gallery;
 
-			if (OnLoadingComplete != null)
-				OnLoadingComplete (result);
+			OnContentItemLoadingComplete();
 		}
 
 		private void ParseItem(XElement item) {
@@ -78,25 +69,36 @@ namespace PlaysnakRealms {
 				.Replace("</em>", string.Empty)
 				;
 
+			data.description = DataUtils.ReplaceASCIICodesWithUTF (descriptionText);
 
-			data.description = ReplaceASCIICodesWithUTF (descriptionText);
-
-			_gallery.images.Add (data);
+			gallery.images.Add (data);
 		}
 
-		private string ReplaceASCIICodesWithUTF(string target)
-		{
-			Regex codeSequence = new Regex(@"&#[0-9]{1,4};");
-			MatchCollection matches = codeSequence.Matches(target);
-			StringBuilder resultStringBuilder = new StringBuilder(target);
-			foreach (Match match in matches)
-			{
-				string matchedCodeExpression = match.Value;
-				string matchedCode = matchedCodeExpression.Substring(2, matchedCodeExpression.Length - 3);
-				Double resultCode = Double.Parse(matchedCode);
-				resultStringBuilder.Replace(matchedCodeExpression, ((Char)resultCode).ToString());
-			}
-			return resultStringBuilder.ToString();
+		private void ParseMainHTML(string text) {
+
+			text = DataUtils.CleanUpHTML (text);
+			text = DataUtils.CleanUpPlaylistURL (text);
+
+			XDocument xdoc = XDocument.Parse (text);
+			var nodes = xdoc
+				.Root
+				.Descendants ()
+				.Where (node => node.Attribute ("class") != null)
+				;
+
+			nodes
+				.Where (node => node.Attribute ("class").Value == OutrunRealmHTMLDataSource.YOUTUBE_PLAYLIST_CLASS)
+				.ToList ()
+				.ForEach (node => ParsePlaylist(node));
+		}
+
+		private void ParsePlaylist(XElement playlistNode) {
+
+			OutrunRealmDataProvider.PlaylistData playlist = new OutrunRealmDataProvider.PlaylistData ();
+			playlist.url = playlistNode.Attribute ("href").Value;
+			videos.playlists.Add (playlist);
+
+			OnContentItemLoadingComplete ();
 		}
 	}
 }

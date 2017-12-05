@@ -54,7 +54,7 @@ public class OutrunRealmDataProvider : MonoBehaviour
 
     private bool _isLoadingComplete;
     private SettingData _settingsData;
-    private IOutrunRealmDataSource _dataSource;
+	private AbstractDataSource _dataSource;
 
     void Awake()
     {
