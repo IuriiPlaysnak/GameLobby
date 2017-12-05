@@ -15,20 +15,23 @@ namespace PlaysnakRealms {
 		{
 			url += string.Format ("?{0}", DateTime.Now.ToLongDateString());
 
-			OnContentItemLoadingStart ();
-			RealmsContentProvider.DownloadTextFile(url, ParseFeedXML);
-
-			OnContentItemLoadingStart ();
-			RealmsContentProvider.DownloadTextFile(@"https://outrun.neonseoul.com/in-game/", ParseMainHTML);
-
-			videos.playlists.Add (new RealmsContentProvider.PlaylistData() 
-				{ 
-					url = "https://www.youtube.com/playlist?list=PLejxjGnOuLXWhrWmWjffhGfgZB1-gQ9PC" 
-				}
-			);
+			LoadFeedXML (url);
+			LoadVideosHTML (@"https://outrun.neonseoul.com/in-game/");
 		}
 
 		#endregion
+
+		private void LoadFeedXML(string url) {
+
+			OnContentItemLoadingStart ();
+			RealmsContentProvider.DownloadTextFile(url, ParseFeedXML);
+		}
+
+		private void LoadVideosHTML(string url) {
+
+			OnContentItemLoadingStart ();
+			RealmsContentProvider.DownloadTextFile(url, ParseMainHTML);
+		}
 
 		private void ParseFeedXML(string text) {
 
@@ -96,12 +99,17 @@ namespace PlaysnakRealms {
 				.Where (node => node.Attribute ("class").Value == RealmsHTMLDataSource.YOUTUBE_PLAYLIST_CLASS)
 				.ToList ()
 				.ForEach (node => ParsePlaylist(node));
+
+			OnContentItemLoadingComplete ();
 		}
 
 		private void ParsePlaylist(XElement playlistNode) {
 
+			OnContentItemLoadingStart ();
+
 			RealmsContentProvider.PlaylistData playlist = new RealmsContentProvider.PlaylistData ();
 			playlist.url = playlistNode.Attribute ("href").Value;
+			playlist.isForNewPlayer = playlistNode.Attribute("id") != null && playlistNode.Attribute("id").Value == "NewPlayer";
 			videos.playlists.Add (playlist);
 
 			OnContentItemLoadingComplete ();

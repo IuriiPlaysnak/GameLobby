@@ -25,6 +25,10 @@ namespace PlaysnakRealms
 			string endStr = "</div> <!-- #main-content -->";
 
 			int startIndex = originalHTML.IndexOf (startStr);
+
+			if (startIndex == -1)
+				return originalHTML;
+			
 			int endIndex = originalHTML.IndexOf (endStr, startIndex) + endStr.Length;
 
 			return originalHTML.Substring (startIndex, endIndex - startIndex);

@@ -18,30 +18,36 @@ public class RealmVideoCard : MonoBehaviour {
 		StartCoroutine (Init ());
 	}
 
+
+
 	private IEnumerator Init() {
 
 		while (RealmsContentProvider.isLoadingComlete == false) {
 			yield return null;
 		}
 
-		if (RealmsContentProvider.videosData.playlists.Count > 0) {
+		if (RealmsContentProvider.videosData.isEmpty) {
+			
+			Debug.Log ("There is no playlist to play");
+		
+		} else {
 
-			int playlistIndex;
+			RealmsContentProvider.PlaylistData playlistToPlay;
+			RealmsContentProvider.VideosData videosData = RealmsContentProvider.videosData;
 
 			if (RealmsPersistenceData.doShowNewPlayerContent) {
-				
-				RealmsPersistenceData.doShowNewPlayerContent = false;
-				playlistIndex = 0;
 
+				playlistToPlay = 
+					videosData.GetPlaylistForANewPlayer () ?? videosData.GetPlaylistForARegularPlayer ();
+
+				RealmsPersistenceData.doShowNewPlayerContent = false;
 			} else {
 
-				playlistIndex = RealmsContentProvider.videosData.playlists.Count > 1 ? 1 : 0;
+				playlistToPlay = 
+					videosData.GetPlaylistForARegularPlayer () ?? videosData.GetPlaylistForANewPlayer ();
 			}
 
-			_playlist.LoadPlaylist (RealmsContentProvider.videosData.playlists [playlistIndex].url);
-			
-		} else {
-			Debug.Log ("Playlist is empty");
+			_playlist.LoadPlaylist (playlistToPlay.url);
 		}
 	}
 }

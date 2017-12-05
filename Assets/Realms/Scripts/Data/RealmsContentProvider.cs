@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
 using PlaysnakRealms;
+using System.Linq;
 
 namespace PlaysnakRealms {
 
@@ -108,7 +109,7 @@ namespace PlaysnakRealms {
 		}
 
 		[System.Serializable]
-		public struct VideoData {
+		public class VideoData {
 
 			public string title;
 			public string description;
@@ -140,15 +141,34 @@ namespace PlaysnakRealms {
 		}
 
 		[System.Serializable]
-		public struct PlaylistData {
+		public class PlaylistData {
+			public bool isForNewPlayer;
 			public string url;
 		}
 
 		[System.Serializable]
-		public struct VideosData {
+		public class VideosData {
 
 			public List<VideoData> videos;
 			public List<PlaylistData> playlists;
+
+			public bool isEmpty {
+				get { return playlists.Count == 0; }
+			}
+
+			public PlaylistData GetPlaylistForANewPlayer() {
+				
+				return playlists
+					.Where (playlist => playlist.isForNewPlayer == true)
+					.FirstOrDefault ();
+			}
+
+			public PlaylistData GetPlaylistForARegularPlayer() {
+
+				return playlists
+					.Where (playlist => playlist.isForNewPlayer == false)
+					.FirstOrDefault ();
+			}
 		}
 
 		[System.Serializable]
