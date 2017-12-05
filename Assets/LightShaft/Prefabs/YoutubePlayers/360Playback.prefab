@@ -84,6 +84,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -99,6 +100,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -207,13 +209,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   videoId: rG4jSz_2HDY
   videoQuality: 0
-  useBestQualityAvailable: 0
   useNewUnityPlayer: 1
   unityVideoPlayer: {fileID: 328768549495441168}
   playOnStart: 1
   noHD: 0
   audioVplayer: {fileID: 328889664750734168}
   isSyncing: 0
+  syncIssue: 0
 --- !u!135 &135795883729401388
 SphereCollider:
   m_ObjectHideFlags: 1

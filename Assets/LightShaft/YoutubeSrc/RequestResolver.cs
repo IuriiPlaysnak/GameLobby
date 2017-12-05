@@ -2,14 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Security;
 using UnityEngine;
-using System.Text;
-using UnityEngine.Networking;
 
 namespace YoutubeLight
 {
@@ -130,13 +125,17 @@ namespace YoutubeLight
         {
             if (videoUrl == null)
                 throw new ArgumentNullException("videoUrl");
-            ValidateCertificate vl = gameObject.AddComponent<ValidateCertificate>();
-            ServicePointManager.ServerCertificateValidationCallback = vl.MyRemoteCertificateValidationCallback;
+
+#if UNITY_WSA
+            videoUrl = "https://youtube.com/watch?v=" + videoUrl;
+#else
             Uri uriResult;
             bool result = Uri.TryCreate(videoUrl, UriKind.Absolute, out uriResult)
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
             if (!result)
                 videoUrl = "https://youtube.com/watch?v=" + videoUrl;
+#endif
+
 
             bool isYoutubeUrl = TryNormalizeYoutubeUrl(videoUrl, out videoUrl);
             if (!isYoutubeUrl)
@@ -328,30 +327,17 @@ namespace YoutubeLight
         }
 
         private string urlResult;
-        void StringDownloadComplete(object sender, DownloadStringCompletedEventArgs e)
-        {
-            urlResult = e.Result;
-            Debug.Log("result ok");
-            downloadString = true;
-        }
-
         bool downloadString = false;
 
         IEnumerator DownloadUrl(string url)
         {
-            using (var client = new WebClient())
-            {
-                downloadString = false;
-                client.Encoding = System.Text.Encoding.UTF8;
-                Uri nuri = new Uri(url);
-                client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(StringDownloadComplete);
-                client.DownloadStringAsync(nuri);
-                while (!downloadString)
-                {
-                    yield return null;
-                }
-                yield return true;
-            }
+            var headers = new Dictionary<string, string>();
+            headers.Add("User-Agent", "Golang_Spider_Bot/3.0");//used this to not call the mobile version of the site, that have different regex results.
+            WWW request = new WWW(url, null, headers);
+            yield return request;
+            urlResult = request.text;
+            Debug.Log("result ok");
+            downloadString = true;
         }
 
         private static void ThrowYoutubeParseException(Exception innerException, string videoUrl)
@@ -366,34 +352,6 @@ namespace YoutubeLight
             public bool RequiresDecryption { get; set; }
 
             public Uri Uri { get; set; }
-        }
-    }
-
-    public class ValidateCertificate : MonoBehaviour
-    {
-        public bool MyRemoteCertificateValidationCallback(System.Object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            bool isOk = true;
-            // If there are errors in the certificate chain, look at each error to determine the cause.
-            if (sslPolicyErrors != SslPolicyErrors.None)
-            {
-                for (int i = 0; i < chain.ChainStatus.Length; i++)
-                {
-                    if (chain.ChainStatus[i].Status != X509ChainStatusFlags.RevocationStatusUnknown)
-                    {
-                        chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
-                        chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
-                        chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 1, 0);
-                        chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllFlags;
-                        bool chainIsValid = chain.Build((X509Certificate2)certificate);
-                        if (!chainIsValid)
-                        {
-                            isOk = false;
-                        }
-                    }
-                }
-            }
-            return isOk;
         }
     }
 }

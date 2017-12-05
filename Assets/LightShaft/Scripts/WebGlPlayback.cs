@@ -42,16 +42,16 @@ public class WebGlPlayback : MonoBehaviour
 
     public void PlayYoutubeVideo(string _videoId)
     {
-//#if UNITY_WEBGL
+#if UNITY_WEBGL
         if (this.GetComponent<VideoController>() != null)
         {
                 this.GetComponent<VideoController>().ShowLoading("Loading...");
         }
         videoId = _videoId;
         StartCoroutine(WebGlRequest(videoId));
-//#else
-//        Debug.LogError("Please use this script only for webgl");
-//#endif
+#else
+        Debug.LogError("Please use this script only for webgl");
+#endif
 
     }
 
@@ -59,8 +59,7 @@ public class WebGlPlayback : MonoBehaviour
     {
         WWW request = new WWW(serverURI+""+videoID+""+formatURI);
         yield return request;
-        string result = Encoding.UTF8.GetString(request.bytes); ;
-        var requestData = JSON.Parse(result);
+        var requestData = JSON.Parse(request.text);
         var videos = requestData["videos"][0]["formats"];
         webGlResults.bestFormatWithAudioIncluded = requestData["videos"][0]["url"];
 
@@ -102,6 +101,7 @@ public class WebGlPlayback : MonoBehaviour
         byte[] bytesToEncode = Encoding.UTF8.GetBytes(url);
         string encodedText = Convert.ToBase64String(bytesToEncode);
         videoUrl = videoURI+""+ encodedText;
+        
         //audioVideoUrl = videoUrl;
 
         Debug.Log("Play!! " + videoUrl);
@@ -186,10 +186,18 @@ public class WebGlPlayback : MonoBehaviour
         if (!noHD)
         {
             audioVplayer.Play();
-            yield return new WaitForSeconds(0.35f);
+            if (syncIssue)
+                yield return new WaitForSeconds(0.35f);
+            else
+                yield return new WaitForSeconds(0);
         }
         else
-            yield return new WaitForSeconds(1f);//if is no hd wait some more
+        {
+            if (syncIssue)
+                yield return new WaitForSeconds(1f);//if is no hd wait some more
+            else
+                yield return new WaitForSeconds(0);
+        }
         unityVideoPlayer.Play();
         if (this.GetComponent<VideoController>() != null)
         {
@@ -232,7 +240,12 @@ public class WebGlPlayback : MonoBehaviour
         Hd2160
     }
 
+    [HideInInspector]
     public bool isSyncing = false;
+
+    [Header("If you think audio is out of sync enable this bool below")]
+    [Header("This happens in some unity versions, the most stable is the 5.6.1p1")]
+    public bool syncIssue;
 
     //Experimental
     private void CheckIfIsDesync()

@@ -29,7 +29,7 @@ public class YoutubeVideoUi : MonoBehaviour {
             mainUI = GameObject.FindObjectOfType<ChannelSearchDemo>().mainUI;
         else if (GameObject.FindObjectOfType<PlaylistDemo>() != null)
             mainUI = GameObject.FindObjectOfType<PlaylistDemo>().mainUI;
-        mainUI.SetActive(false);
+        //mainUI.SetActive(false);
     }
 
     private void VideoFinished(VideoPlayer vPlayer)
@@ -47,12 +47,16 @@ public class YoutubeVideoUi : MonoBehaviour {
         mainUI.SetActive(true);
     }
 
-//    public IEnumerator PlayVideo(string url)
-//    {
-//        yield return Handheld.PlayFullScreenMovie(url, Color.black, FullScreenMovieControlMode.Full, FullScreenMovieScalingMode.Fill);
-//        Debug.Log("below this line will run when the video is finished");
-//        VideoFinished();
-//    }
+    public IEnumerator PlayVideo(string url)
+    {
+#if UNITY_ANDROID || UNITY_IOS
+        yield return Handheld.PlayFullScreenMovie(url, Color.black, FullScreenMovieControlMode.Full, FullScreenMovieScalingMode.Fill);
+#else
+        yield return true;
+#endif
+        Debug.Log("below this line will run when the video is finished");
+        VideoFinished();
+    }
 
     public void LoadThumbnail()
     {

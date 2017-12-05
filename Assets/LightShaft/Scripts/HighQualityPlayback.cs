@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using YoutubeLight;
-using SimpleJSON;
-
 
 public class HighQualityPlayback : MonoBehaviour {
 	public string videoId = "bc0sJvtKrRM";
 	public VideoQuality videoQuality;
-	public bool useBestQualityAvailable;
 	private string videoUrl;
 	private string audioVideoUrl;
 	private bool videoAreReadyToPlay = false;
@@ -98,32 +95,57 @@ public class HighQualityPlayback : MonoBehaviour {
 		}
 
 		bool foundVideo = false;
-		int maxQuality = 0;
 		//Get the high quality video
 		foreach (VideoInfo info in videoInfos) 
 		{
-			if (info.VideoType == VideoType.Mp4)
-				maxQuality = Mathf.Max (maxQuality, info.Resolution);
-
-			if (info.VideoType == VideoType.Mp4 && info.Resolution ==(quality)) {
-				if (info.RequiresDecryption) {
-					//The string is the video url
-					StartCoroutine(resolver.DecryptDownloadUrl (DecryptVideoDone ,info));
-				} else {
-					videoUrl = info.DownloadUrl;
+            if (info.VideoType == VideoType.Mp4 && info.Resolution == (quality))
+            {
+                if (info.RequiresDecryption)
+                {
+                    //The string is the video url
+                    StartCoroutine(resolver.DecryptDownloadUrl(DecryptVideoDone, info));
+                }
+                else
+                {
+                    videoUrl = info.DownloadUrl;
                     videoAreReadyToPlay = true;
                 }
-				foundVideo = true;
-				//videoAreReadyToPlay = true;
-				break;
-			}
-		}
+                foundVideo = true;
+                //videoAreReadyToPlay = true;
+                break;
+            }
+        }
+
+        if (!foundVideo && quality == 2160)
+        {
+            foreach (VideoInfo info in videoInfos)
+            {
+                    if (info.FormatCode == 313)
+                    {
+                        Debug.Log("Found but with unknow format in results, check to see if the video works normal.");
+                        if (info.RequiresDecryption)
+                        {
+                            //The string is the video url
+                            StartCoroutine(resolver.DecryptDownloadUrl(DecryptVideoDone, info));
+                        }
+                        else
+                        {
+                            videoUrl = info.DownloadUrl;
+                            videoAreReadyToPlay = true;
+                        }
+                        foundVideo = true;
+                        //videoAreReadyToPlay = true;
+                        break;
+                    }
+            }
+        }
+
 		//if desired quality not found try another lower quality.
 		if (!foundVideo) {
 			Debug.Log ("Desired quality not found, playing with low quality, check if the video id: "+videoId+" support that quality!");
 			foreach (VideoInfo info in videoInfos) 
 			{
-				if (info.VideoType == VideoType.Mp4 && info.Resolution ==(useBestQualityAvailable ?  maxQuality : 360)) {
+				if (info.VideoType == VideoType.Mp4 && info.Resolution ==(360)) {
 					if (info.RequiresDecryption) {
                         //The string is the video url
                         StartCoroutine(resolver.DecryptDownloadUrl(DecryptVideoDone, info));
@@ -164,7 +186,7 @@ public class HighQualityPlayback : MonoBehaviour {
 			videoAreReadyToPlay = false;
 			//play using the old method
 			if (!useNewUnityPlayer)
-				StartCoroutine (StartVideo ());
+                StartHandheldVideo();
 			else {
 				Debug.Log ("Play!!" + videoUrl);
 				unityVideoPlayer.source = VideoSource.Url;
@@ -231,10 +253,19 @@ public class HighQualityPlayback : MonoBehaviour {
         if (!noHD)
         {
             audioVplayer.Play();
-            yield return new WaitForSeconds(0.35f);
+            if(syncIssue)
+                yield return new WaitForSeconds(0.35f);
+            else
+                yield return new WaitForSeconds(0);
         }
         else
-            yield return new WaitForSeconds(1f);//if is no hd wait some more
+        {
+            if (syncIssue)
+                yield return new WaitForSeconds(1f);//if is no hd wait some more
+            else
+                yield return new WaitForSeconds(0);
+        }
+           
         unityVideoPlayer.Play();
         if (this.GetComponent<VideoController>() != null)
         {
@@ -242,15 +273,15 @@ public class HighQualityPlayback : MonoBehaviour {
         }
     }
 
-	IEnumerator StartVideo(){
-		#if UNITY_IPHONE || UNITY_ANDROID
-		Handheld.PlayFullScreenMovie (videoUrl);
-		#endif
-		yield return new WaitForSeconds (1.4f);
-		OnVideoFinished ();
-	}
+	void StartHandheldVideo(){
+        Debug.Log("P");
+#if UNITY_IPHONE || UNITY_ANDROID
+        HandheldPlayback deviceplayer = gameObject.AddComponent<HandheldPlayback>();
+        deviceplayer.PlayVideo(videoUrl, OnVideoFinished);
+#endif
+    }
 
-	public void OnVideoFinished(){
+    public void OnVideoFinished(){
 		if (unityVideoPlayer.isPrepared) {
 			Debug.Log ("Finished");
 			if (unityVideoPlayer.isLooping)
@@ -273,7 +304,11 @@ public class HighQualityPlayback : MonoBehaviour {
 		Hd2160
 	}
 
+    [HideInInspector]
     public bool isSyncing = false;
+    [Header("If you think audio is out of sync enable this bool below")]
+    [Header("This happens in some unity versions, the most stable is the 5.6.1p1")]
+    public bool syncIssue;
 
     //Experimental
     private void CheckIfIsDesync(){
