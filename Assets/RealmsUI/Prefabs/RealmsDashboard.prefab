@@ -93,7 +93,6 @@ GameObject:
   - component: {fileID: 114402280265022874}
   - component: {fileID: 82301692963272308}
   - component: {fileID: 328267134724946034}
-  - component: {fileID: 114536974274921654}
   - component: {fileID: 114954829669206044}
   - component: {fileID: 114638834423245428}
   m_Layer: 0
@@ -4057,17 +4056,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &114536974274921654
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1078152958553228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 749b2bd6d78d472449b8ac3e5da7b06d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114544374371025220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5395,6 +5383,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4009419318f9cb4198e0d51dc74ca4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  videoId: 
+  videoQuality: 4
+  useNewUnityPlayer: 1
+  unityVideoPlayer: {fileID: 0}
+  playOnStart: 0
+  noHD: 0
+  audioVplayer: {fileID: 0}
+  isSyncing: 0
+  syncIssue: 0
 --- !u!114 &114957732941413238
 MonoBehaviour:
   m_ObjectHideFlags: 1
