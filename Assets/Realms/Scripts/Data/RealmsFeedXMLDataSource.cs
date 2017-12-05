@@ -20,6 +20,12 @@ namespace PlaysnakRealms {
 
 			OnContentItemLoadingStart ();
 			RealmsContentProvider.DownloadTextFile(@"https://outrun.neonseoul.com/in-game/", ParseMainHTML);
+
+			videos.playlists.Add (new RealmsContentProvider.PlaylistData() 
+				{ 
+					url = "https://www.youtube.com/playlist?list=PLejxjGnOuLXWhrWmWjffhGfgZB1-gQ9PC" 
+				}
+			);
 		}
 
 		#endregion

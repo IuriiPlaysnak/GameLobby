@@ -24,9 +24,24 @@ public class RealmVideoCard : MonoBehaviour {
 			yield return null;
 		}
 
-		if (RealmsContentProvider.videosData.playlists != null && RealmsContentProvider.videosData.playlists.Count > 0)
-			_playlist.LoadPlaylist (RealmsContentProvider.videosData.playlists [0].url);
-		else
+		if (RealmsContentProvider.videosData.playlists.Count > 0) {
+
+			int playlistIndex;
+
+			if (RealmsPersistenceData.doShowNewPlayerContent) {
+				
+				RealmsPersistenceData.doShowNewPlayerContent = false;
+				playlistIndex = 0;
+
+			} else {
+
+				playlistIndex = RealmsContentProvider.videosData.playlists.Count > 1 ? 1 : 0;
+			}
+
+			_playlist.LoadPlaylist (RealmsContentProvider.videosData.playlists [playlistIndex].url);
+			
+		} else {
 			Debug.Log ("Playlist is empty");
+		}
 	}
 }

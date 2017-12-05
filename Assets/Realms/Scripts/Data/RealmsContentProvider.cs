@@ -92,10 +92,6 @@ namespace PlaysnakRealms {
 			get { return _instance._isLoadingComplete; }
 		}
 
-		static public NewsData newsData {
-			get { return _instance._settingsData.newsData; }
-		}
-
 		static public GalleryData galleryData {
 			get { return _instance._settingsData.galleryData; }
 		}
@@ -107,7 +103,6 @@ namespace PlaysnakRealms {
 		[System.Serializable]
 		public struct SettingData {
 
-			public NewsData newsData;
 			public GalleryData galleryData;
 			public VideosData videosData;
 		}
@@ -176,19 +171,6 @@ namespace PlaysnakRealms {
 			public override string ToString ()
 			{
 				return string.Format ("[ImageData]: title = {0}, descr = {1}, url = {2}", title, description, url);
-			}
-		}
-
-		[System.Serializable]
-		public struct NewsData {
-
-			public string title;
-			public string imageURL;
-			public string link;
-
-			public override string ToString ()
-			{
-				return string.Format ("[NewsData]: title = {0}, image = {1}, link = {2} ", title, imageURL, link);
 			}
 		}
 

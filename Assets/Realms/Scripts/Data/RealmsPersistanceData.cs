@@ -47,6 +47,22 @@ namespace PlaysnakRealms {
 			return data.sfxVolume;
 		}
 
+		public static bool doShowNewPlayerContent {
+
+			get {
+
+				PlayerData data = LoadPlayerData ();
+				return data.doShowNewPlayerContent;
+			}
+
+			set {
+
+				PlayerData data = LoadPlayerData ();
+				data.doShowNewPlayerContent = value;
+				SavePlayerData (data);
+			}
+		}
+
 		private static bool _doUseCachedData;
 		private static PlayerData _cachedData;
 
@@ -82,7 +98,13 @@ namespace PlaysnakRealms {
 
 				} else {
 
-					_cachedData = new PlayerData () { height = 0.65f, musicVolume = 100, sfxVolume = 100 };
+					_cachedData = new PlayerData () 
+					{ 
+						height = 0.65f
+							, musicVolume = 100
+							, sfxVolume = 100
+							, doShowNewPlayerContent = true 
+					};
 				}
 			}
 
@@ -94,14 +116,16 @@ namespace PlaysnakRealms {
 			public float height;
 			public int musicVolume;
 			public int sfxVolume;
+			public bool doShowNewPlayerContent;
 
 			public override string ToString ()
 			{
 				return string.Format (
-					"[PlayerData]: height = {0}, music = {1}, sfx = {2}"
+					"[PlayerData]: height = {0}, music = {1}, sfx = {2}, show new player content = {3}"
 					, height
 					, musicVolume
 					, sfxVolume
+					, doShowNewPlayerContent
 				);
 			}
 		}
