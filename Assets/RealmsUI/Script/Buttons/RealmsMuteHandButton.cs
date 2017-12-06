@@ -1,28 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace PlaysnakRealms {
-
-	[RequireComponent (typeof(RealmsPlayPauseHandButtonUI))]
+namespace PlaysnakRealms
+{
+	[RequireComponent (typeof(RealmsMuteHandButtonUI))]
 	[RequireComponent (typeof(RealmsHandButton))]
-	public class RealmsPlayPauseHandButton : MonoBehaviour {
+	public class RealmsMuteHandButton : MonoBehaviour {
 
 		[SerializeField]
 		private RealmYouTubeVideoPlayer _player;
 
-		private RealmsPlayPauseHandButtonUI _ui;
+		private RealmsMuteHandButtonUI _ui;
 		private RealmsHandButton _buttonHandler;
 
 		void Awake() {
 
-			_ui = gameObject.GetComponent<RealmsPlayPauseHandButtonUI> ();
+			_ui = gameObject.GetComponent<RealmsMuteHandButtonUI> ();
 			_buttonHandler = gameObject.GetComponent<RealmsHandButton> ();
 			_buttonHandler.OnClick += OnButtonClick;
 			_buttonHandler.OnOver += OnButtonOver;
 			_buttonHandler.OnOut += OnButtonOut;
 
-			_player.OnPlay += OnVideoPlay;
+			_player.OnMute += OnPlayerMute;
 		}
 
 		void OnButtonOut ()
@@ -38,12 +36,12 @@ namespace PlaysnakRealms {
 		void OnButtonClick ()
 		{
 			_ui.OnClick ();
-			_player.OnPlayPause ();
+			_player.OnMuteUnmute ();
 		}
 
-		void OnVideoPlay ()
-		{
-			_ui.SetState (RealmsPlayPauseHandButtonUI.State.PLAY);
+		void OnPlayerMute (bool isMuted) {
+
+			_ui.SetState(isMuted ? RealmsMuteHandButtonUI.State.MUTE : RealmsMuteHandButtonUI.State.UNMUTE);
 		}
 	}
 }

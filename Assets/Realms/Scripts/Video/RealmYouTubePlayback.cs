@@ -17,6 +17,7 @@ namespace PlaysnakRealms {
 			useNewUnityPlayer = true;
 			noHD = false;
 			playOnStart = false;
+			isSyncing = true;
 
 			unityVideoPlayer = gameObject.GetComponent<VideoPlayer> ();
 
