@@ -28,6 +28,7 @@ namespace PlaysnakRealms
 			ii.OnClick += OnInteractionClick;
 
 			_ui = gameObject.GetComponent<RealmsHandButtonUI> ();
+			_ui.OnOut ();
 		}
 
 		virtual protected void OnInteractionClick ()

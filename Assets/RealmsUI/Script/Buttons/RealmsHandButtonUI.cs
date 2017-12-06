@@ -29,7 +29,10 @@ namespace PlaysnakRealms
 		protected State _state;
 
 		virtual public void OnOver() {
+			
 			_filling.enabled = true;
+			_filling.color = _transparentColor;
+			ChangeAlphaTo (1f, 0.1f);
 		}
 
 		virtual public void OnOut() {
@@ -54,18 +57,26 @@ namespace PlaysnakRealms
 		virtual public void OnClick ()
 		{
 			_filling.color = _transparentColor;
-			StartCoroutine (ChangeAlphaTo (1f));
+			ChangeAlphaTo (1f, 0.25f);
 		}
 
-		IEnumerator ChangeAlphaTo(float newAlpha) {
+		private void ChangeAlphaTo(float newAlpha, float speed) {
 
-			while (_filling.color.a < 1) {
+			StopAllCoroutines ();
+			StartCoroutine (AnimateAlpha (newAlpha, speed));
+		}
 
-				_filling.color = new Color (_filling.color.r, _filling.color.g, _filling.color.b, _filling.color.a + Time.deltaTime * 4);
+		IEnumerator AnimateAlpha(float newAlpha, float speed) {
+
+			while (Mathf.Abs(_filling.color.a - newAlpha) > 0.05f) {
+
+				Color nextColor = _originalColor;
+				nextColor.a = Mathf.Lerp (_filling.color.a, newAlpha, Mathf.Min(speed, 1f));
+				_filling.color = nextColor;
 				yield return null;
 			}
 
-			_filling.color = new Color (_filling.color.r, _filling.color.g, _filling.color.b, 1f);
+			_filling.color = _originalColor;
 		}
 
 		public void SetState(State state) {
