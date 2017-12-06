@@ -19,7 +19,9 @@ namespace PlaysnakRealms
 			MUTE,
 			UNMUTE,
 			PLAY,
-			PAUSE
+			PAUSE,
+			PREV,
+			NEXT
 		}
 
 		protected State _state;
