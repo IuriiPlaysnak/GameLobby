@@ -5,35 +5,51 @@ namespace PlaysnakRealms
 {
 
 	[RequireComponent (typeof(RealmsInteractiveItem))]
+	[RequireComponent (typeof(RealmsHandButtonUI))]
 
 	public class RealmsHandButton : MonoBehaviour
 	{
 		public event System.Action OnClick;
 		public event System.Action OnOver;
 		public event System.Action OnOut;
+
+		protected RealmsHandButtonUI _ui;
 	
 		void Awake() {
 
-			RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
-			ii.OnOver += Ii_OnOver;
-			ii.OnOut += Ii_OnOut;
-			ii.OnClick += Ii_OnClick;
+			Init ();
 		}
 
-		void Ii_OnClick ()
+		virtual protected void Init() {
+
+			RealmsInteractiveItem ii = gameObject.GetComponent<RealmsInteractiveItem> ();
+			ii.OnOver += OnInteractionOver;
+			ii.OnOut += OnInteractionOut;
+			ii.OnClick += OnInteractionClick;
+
+			_ui = gameObject.GetComponent<RealmsHandButtonUI> ();
+		}
+
+		virtual protected void OnInteractionClick ()
 		{
+			_ui.OnClick ();
+
 			if (OnClick != null)
 				OnClick ();
 		}
 
-		void Ii_OnOut ()
+		virtual protected void OnInteractionOut ()
 		{
+			_ui.OnOut ();
+
 			if (OnOut != null)
 				OnOut ();
 		}
 
-		void Ii_OnOver ()
+		virtual protected void OnInteractionOver ()
 		{
+			_ui.OnOver ();
+
 			if (OnOver != null)
 				OnOver ();
 		}

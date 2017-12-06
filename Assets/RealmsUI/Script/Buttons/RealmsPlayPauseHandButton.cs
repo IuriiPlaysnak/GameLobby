@@ -5,39 +5,23 @@ using UnityEngine;
 namespace PlaysnakRealms {
 
 	[RequireComponent (typeof(RealmsPlayPauseHandButtonUI))]
-	[RequireComponent (typeof(RealmsHandButton))]
-	public class RealmsPlayPauseHandButton : MonoBehaviour {
+
+	public class RealmsPlayPauseHandButton : RealmsHandButton {
 
 		[SerializeField]
 		private RealmYouTubeVideoPlayer _player;
 
-		private RealmsPlayPauseHandButtonUI _ui;
-		private RealmsHandButton _buttonHandler;
+		override protected void Init(){
 
-		void Awake() {
+			base.Init ();
 
 			_ui = gameObject.GetComponent<RealmsPlayPauseHandButtonUI> ();
-			_buttonHandler = gameObject.GetComponent<RealmsHandButton> ();
-			_buttonHandler.OnClick += OnButtonClick;
-			_buttonHandler.OnOver += OnButtonOver;
-			_buttonHandler.OnOut += OnButtonOut;
-
 			_player.OnPlay += OnVideoPlay;
 		}
 
-		void OnButtonOut ()
+		protected override void OnInteractionClick ()
 		{
-			_ui.OnOut ();
-		}
-
-		void OnButtonOver ()
-		{
-			_ui.OnOver ();
-		}
-
-		void OnButtonClick ()
-		{
-			_ui.OnClick ();
+			base.OnInteractionClick ();
 			_player.OnPlayPause ();
 		}
 

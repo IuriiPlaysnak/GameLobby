@@ -1,8 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Realms\Scripts\Data\RealmsContentProvider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\RealmsUI\Script\Buttons\RealmsMuteHandButton.cs">
     <Files>
-      <File FileName="Assets\Realms\Scripts\Data\RealmsContentProvider.cs" Line="52" Column="1" />
+      <File FileName="Assets\RealmsUI\Script\Buttons\RealmsMuteHandButton.cs" Line="20" Column="48" />
+      <File FileName="Assets\RealmsUI\Script\Buttons\RealmsHandButton.cs" Line="33" Column="3" />
+      <File FileName="Assets\RealmsUI\Script\Buttons\RealmsMuteHandButtonUI.cs" Line="27" Column="3" />
+      <File FileName="Assets\RealmsUI\Script\Buttons\RealmsHandButtonUI.cs" Line="35" Column="3" />
+      <File FileName="Assets\RealmsUI\Script\Buttons\RealmsPlayPauseHandButton.cs" Line="24" Column="21" />
+      <File FileName="Assets\RealmsUI\Script\Buttons\RealmsPlayPauseHandButtonUI.cs" Line="9" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
