@@ -16,28 +16,6 @@ public class OutrunLeaderboardDisplay : MonoBehaviour
     List<OutrunLeaderboardRow> rows = new List<OutrunLeaderboardRow>();
     bool shouldFetch = false;
 
-    private void Start()
-    {
-        StartCoroutine(WaitForLoadedLeaderboards());
-    }
-
-    public IEnumerator WaitForLoadedLeaderboards()
-    {
-        yield return new WaitForSeconds(2);
-        switch (ListShown)
-        {
-            case LeaderboardOptions.myscore:
-                GetMyScoreLeaderboard();
-                break;
-            case LeaderboardOptions.global:
-                GetGlobalLeaderboard();
-                break;
-            case LeaderboardOptions.friends:
-                GetFriendsLeaderboard();
-                break;
-        }
-    }
-
     void Update()
     {
 		if (shouldFetch && OutrunLeaderboard.isReady)
@@ -54,15 +32,36 @@ public class OutrunLeaderboardDisplay : MonoBehaviour
 
     public void GetMyScoreLeaderboard()
     {
-		OutrunLeaderboard.GetLeaderboardByType(AbstractLeaderboard.LeaderboardType.AROUND_ME, OnLeaderboardData);
+		LoadLeaderboard(AbstractLeaderboard.LeaderboardType.AROUND_ME, OnLeaderboardData);
     }
     public void GetGlobalLeaderboard()
     {
-		OutrunLeaderboard.GetLeaderboardByType(AbstractLeaderboard.LeaderboardType.GLOBAL, OnLeaderboardData);
+		LoadLeaderboard(AbstractLeaderboard.LeaderboardType.GLOBAL, OnLeaderboardData);
     }
 	public void GetFriendsLeaderboard() {
         
-		OutrunLeaderboard.GetLeaderboardByType (AbstractLeaderboard.LeaderboardType.FRIENDS, OnLeaderboardData);
+		LoadLeaderboard(AbstractLeaderboard.LeaderboardType.FRIENDS, OnLeaderboardData);
+	}
+
+	private void LoadLeaderboard(AbstractLeaderboard.LeaderboardType type
+		, System.Action<List<Outrun.OutrunLeaderboard.Entry>> onLeaderboardLoadedCallback) {
+
+		StopAllCoroutines ();
+
+		if (OutrunLeaderboard.isReady)
+			OutrunLeaderboard.GetLeaderboardByType (type, onLeaderboardLoadedCallback);
+		else
+			StartCoroutine (LoadLeaderboardData (type, onLeaderboardLoadedCallback));
+	}
+
+	IEnumerator LoadLeaderboardData(
+		AbstractLeaderboard.LeaderboardType type
+		, System.Action<List<Outrun.OutrunLeaderboard.Entry>> onLeaderboardLoadedCallback) {
+
+		while (OutrunLeaderboard.isReady == false)
+			yield return null;
+
+		OutrunLeaderboard.GetLeaderboardByType (type, onLeaderboardLoadedCallback);
 	}
 
 	private void OnLeaderboardData(List<Outrun.OutrunLeaderboard.Entry> entries)
