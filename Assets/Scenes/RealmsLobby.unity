@@ -112,6 +112,54 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &33982561 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1391042011077440, guid: 4124d3799b522034b87bdecf12614494,
+    type: 2}
+  m_PrefabInternal: {fileID: 1628291604}
+--- !u!114 &33982563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 33982561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a725c41a47250e489b919ccd00d0d73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _background: {fileID: 33982570}
+  _filling: {fileID: 942477967}
+  _buttonLabel: {fileID: 1788635925}
+--- !u!114 &33982564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 33982561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 588dba3bc7c9c5b44ab1d0cefcac1149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+--- !u!114 &33982567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 33982561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 861df3c7e7eb2d44cb0b9e06e325f52d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &33982570 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114097223040832914, guid: 4124d3799b522034b87bdecf12614494,
+    type: 2}
+  m_PrefabInternal: {fileID: 1628291604}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &760064648
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +225,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &942477967 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114268699330038144, guid: 4124d3799b522034b87bdecf12614494,
+    type: 2}
+  m_PrefabInternal: {fileID: 1628291604}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1001 &1092513090
 Prefab:
   m_ObjectHideFlags: 0
@@ -385,7 +439,25 @@ Prefab:
       propertyPath: audioVplayer
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1564385035657438, guid: 4124d3799b522034b87bdecf12614494, type: 2}
+      propertyPath: m_Name
+      value: Filling
+      objectReference: {fileID: 0}
+    - target: {fileID: 114268699330038144, guid: 4124d3799b522034b87bdecf12614494,
+        type: 2}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114536974274921654, guid: 4124d3799b522034b87bdecf12614494, type: 2}
+    - {fileID: 114786726114902692, guid: 4124d3799b522034b87bdecf12614494, type: 2}
+    - {fileID: 114957732941413238, guid: 4124d3799b522034b87bdecf12614494, type: 2}
+    - {fileID: 114872632648667130, guid: 4124d3799b522034b87bdecf12614494, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 4124d3799b522034b87bdecf12614494, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1788635925 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114820461535212666, guid: 4124d3799b522034b87bdecf12614494,
+    type: 2}
+  m_PrefabInternal: {fileID: 1628291604}
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}

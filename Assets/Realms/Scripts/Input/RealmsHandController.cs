@@ -16,7 +16,7 @@ namespace PlaysnakRealms {
 		[SerializeField]
 		private OVRInput.RawButton _cancelButton;
 
-		private RealmsInteractiveItem _lastInteraction;
+		private RealmsInteractiveItem _currentInteraction;
 
 		private LineRenderer _lineRender;
 
@@ -31,7 +31,10 @@ namespace PlaysnakRealms {
 
 			if (_lineRender.enabled == false)
 				return;
-			
+
+			if (OVRInput.GetUp (_actionButton))
+				Click (_currentInteraction);
+
 			CheckHit ();
 		}
 
@@ -52,19 +55,19 @@ namespace PlaysnakRealms {
 
 				RealmsInteractiveItem ii = hit.collider.GetComponent<RealmsInteractiveItem> ();
 
-				if (ii == null || ii != _lastInteraction) {
-					Out (_lastInteraction);
+				if (ii == null || ii != _currentInteraction) {
+					Out (_currentInteraction);
 				}
 
-				_lastInteraction = ii;
+				_currentInteraction = ii;
 
-				MoveOver (_lastInteraction, hit);
-				Over (_lastInteraction);
+				MoveOver (_currentInteraction, hit);
+				Over (_currentInteraction);
 
 			} else {
 
-				Out (_lastInteraction);
-				_lastInteraction = null;
+				Out (_currentInteraction);
+				_currentInteraction = null;
 			}
 		}
 
