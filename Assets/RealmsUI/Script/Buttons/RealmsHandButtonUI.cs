@@ -28,10 +28,29 @@ namespace PlaysnakRealms
 
 		protected State _state;
 
+		private Color _fillingColor;
+		private Color _fillingTransparentColor;
+		private Color _disbaledColor;
+		private Color _enabledColor;
+
+		void Awake() {
+			Init ();
+		}
+
+		virtual protected void Init() {
+
+			_fillingColor = _fillingTransparentColor = _filling.color;
+			_fillingTransparentColor.a = 0f;
+
+			_enabledColor = _background.color;
+			_disbaledColor = _background.color;
+			_disbaledColor.a = 0.5f;
+		}
+
 		virtual public void OnOver() {
-			
+
 			_filling.enabled = true;
-			_filling.color = _transparentColor;
+			_filling.color = _fillingTransparentColor;
 			ChangeAlphaTo (1f, 0.1f);
 		}
 
@@ -39,24 +58,13 @@ namespace PlaysnakRealms
 			_filling.enabled = false;
 		}
 
-
-		private Color _originalColor;
-		private Color _transparentColor;
-
-		void Awake() {
-			Init ();
-		}
-
-		virtual protected void Init() {
-			
-			_originalColor = _filling.color;
-			_transparentColor = _filling.color;
-			_transparentColor.a = 0f;
+		virtual public void SetEnable(bool isEnable) {
+			_background.color = isEnable ? _enabledColor : _disbaledColor;
 		}
 
 		virtual public void OnClick ()
 		{
-			_filling.color = _transparentColor;
+			_filling.color = _fillingTransparentColor;
 			ChangeAlphaTo (1f, 0.25f);
 		}
 
@@ -70,13 +78,13 @@ namespace PlaysnakRealms
 
 			while (Mathf.Abs(_filling.color.a - newAlpha) > 0.05f) {
 
-				Color nextColor = _originalColor;
+				Color nextColor = _fillingColor;
 				nextColor.a = Mathf.Lerp (_filling.color.a, newAlpha, Mathf.Min(speed, 1f));
 				_filling.color = nextColor;
 				yield return null;
 			}
 
-			_filling.color = _originalColor;
+			_filling.color = _fillingColor;
 		}
 
 		public void SetState(State state) {

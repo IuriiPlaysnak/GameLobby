@@ -17,9 +17,9 @@ namespace PlaysnakRealms
 		[SerializeField]
 		private RealmGallery _gallery;
 
-		protected override void Init ()
+		protected override void OnAwake ()
 		{
-			base.Init ();
+			base.OnAwake ();
 			_ui.SetState (_direction == Direction.PREV ? RealmsHandButtonUI.State.PREV : RealmsHandButtonUI.State.NEXT);
 		}
 

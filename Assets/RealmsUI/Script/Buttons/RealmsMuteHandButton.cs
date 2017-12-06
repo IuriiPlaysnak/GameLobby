@@ -9,9 +9,9 @@ namespace PlaysnakRealms
 		[SerializeField]
 		private RealmYouTubeVideoPlayer _player;
 
-		protected override void Init ()
+		protected override void OnAwake ()
 		{
-			base.Init ();
+			base.OnAwake ();
 
 			_ui = gameObject.GetComponent<RealmsMuteHandButtonUI> ();
 			_player.OnMute += OnPlayerMute;
