@@ -11,6 +11,14 @@ namespace PlaysnakRealms {
 		[SerializeField]
 		private UnityEvent _onClick;
 
+		protected override void OnStart ()
+		{
+			base.OnStart ();
+
+			if (_isToggledOnStart)
+				OnInteractionClick ();
+		}
+
 		protected override void OnInteractionClick ()
 		{
 			base.OnInteractionClick ();

@@ -34,8 +34,6 @@ namespace PlaysnakRealms
 
 		public override void OnClick ()
 		{
-			base.OnClick ();
-
 			_filling.enabled = true;
 			_filling.color = _fillingTransparentColor;
 			ChangeAlphaTo (1f, 0.25f);
@@ -43,14 +41,11 @@ namespace PlaysnakRealms
 
 		public override void OnOut ()
 		{
-			base.OnOut ();
 			_filling.enabled = false;
 		}
 
 		public override void OnOver ()
 		{
-			base.OnOver ();
-
 			_filling.enabled = true;
 			_filling.color = _fillingTransparentColor;
 			ChangeAlphaTo (1f, 0.1f);
@@ -58,8 +53,17 @@ namespace PlaysnakRealms
 
 		public override void SetEnable (bool isEnable)
 		{
-			base.SetEnable (isEnable);
 			_background.color = isEnable ? _enabledColor : _disbaledColor;
+		}
+
+		public override void Activate ()
+		{
+			_filling.enabled = true;
+		}
+
+		public override void Deactivate ()
+		{
+			_filling.enabled = false;
 		}
 
 		private void ChangeAlphaTo(float newAlpha, float speed) {

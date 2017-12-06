@@ -24,10 +24,13 @@ namespace PlaysnakRealms
 		}
 
 		virtual protected void Init() {	}
-		virtual public void OnOver() { }
-		virtual public void OnOut() { }
-		virtual public void SetEnable(bool isEnable) { }
-		virtual public void OnClick () { }
+
+		abstract public void SetEnable (bool isEnable);
+		abstract public void OnOut ();
+		abstract public void OnOver ();
+		abstract public void OnClick ();
+		abstract public void Activate ();
+		abstract public void Deactivate ();
 
 		public void SetState(State state) {
 

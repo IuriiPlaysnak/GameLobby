@@ -5,6 +5,9 @@ namespace PlaysnakRealms
 	public class RealmsToggleHandButton : RealmsHandButton
 	{
 		[SerializeField]
+		protected bool _isToggledOnStart;
+
+		[SerializeField]
 		private RealmsToggleButtonsGroup _toggleGroup;
 
 		protected override void OnAwake ()
@@ -23,7 +26,7 @@ namespace PlaysnakRealms
 		public void Reset() {
 
 			SetInteractivityStatus (true);
-			_ui.OnOut ();
+			_ui.Deactivate ();
 		}
 	}
 }

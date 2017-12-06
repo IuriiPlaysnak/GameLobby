@@ -2,7 +2,7 @@
 
 namespace PlaysnakRealms
 {
-	public class RealmsMenuHandButtonUI : RealmsHandButtonUI
+	public class RealmsMenuHandButtonUI : RealmsSimpleHandButtonUI
 	{
 		
 	}

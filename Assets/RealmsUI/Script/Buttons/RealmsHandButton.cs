@@ -10,7 +10,9 @@ namespace PlaysnakRealms
 	public class RealmsHandButton : MonoBehaviour
 	{
 		[SerializeField]
-		private bool _isEnable = true;
+		private bool _isEnableOnStart = true;
+
+		private bool _isEnabled;
 
 		protected RealmsHandButtonUI _ui;
 		protected RealmsInteractiveItem _interactivity;
@@ -52,8 +54,13 @@ namespace PlaysnakRealms
 
 		void Start() {
 
-			isEnable = _isEnable;
-			_ui.OnOut ();
+			OnStart ();
+		}
+
+		virtual protected void OnStart() {
+
+			isEnabled = _isEnableOnStart;
+			_ui.Deactivate ();
 		}
 
 		virtual protected void OnInteractionClick ()
@@ -71,12 +78,12 @@ namespace PlaysnakRealms
 			_ui.OnOver ();
 		}
 
-		public bool isEnable {
+		public bool isEnabled {
 			get {
-				return _isEnable;
+				return _isEnabled;
 			}
 			set {
-				_isEnable = value;
+				_isEnabled = value;
 				_ui.SetEnable (value);
 				SetInteractivityStatus (value);
 			}

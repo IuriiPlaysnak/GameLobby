@@ -560,7 +560,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224846817924937824}
-  - component: {fileID: 114992529604662548}
   - component: {fileID: 114655138507878068}
   m_Layer: 0
   m_Name: ImageToolbarSensors
@@ -3114,7 +3113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37939bd78e0eaac4d986a12507764815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnable: 1
+  _isEnableOnStart: 1
   _direction: 0
   _gallery: {fileID: 114372311971223890}
 --- !u!114 &114307290046366220
@@ -3308,7 +3307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb89eaea449afd499566937ecb90a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnable: 1
+  _isEnableOnStart: 1
+  _isToggledOnStart: 1
   _toggleGroup: {fileID: 114655138507878068}
   _onClick:
     m_PersistentCalls:
@@ -3399,7 +3399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13ed65fd6f706c94089f3e14de3bed2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnable: 1
+  _isEnableOnStart: 1
   _player: {fileID: 114791589040838962}
 --- !u!114 &114378743122202510
 MonoBehaviour:
@@ -3463,7 +3463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588dba3bc7c9c5b44ab1d0cefcac1149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnable: 1
+  _isEnableOnStart: 1
   _player: {fileID: 114791589040838962}
 --- !u!114 &114386394932202650
 MonoBehaviour:
@@ -3509,7 +3509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb89eaea449afd499566937ecb90a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnable: 1
+  _isEnableOnStart: 1
+  _isToggledOnStart: 0
   _toggleGroup: {fileID: 114655138507878068}
   _onClick:
     m_PersistentCalls:
@@ -3617,7 +3618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb23728cedfef941a4ebd053e62cd80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _background: {fileID: 114828196436598092}
+  _background: {fileID: 114120287213956800}
   _filling: {fileID: 114120287213956800}
   _buttonLabel: {fileID: 114253895479564848}
 --- !u!114 &114416666323777222
@@ -4157,7 +4158,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb89eaea449afd499566937ecb90a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnable: 1
+  _isEnableOnStart: 1
+  _isToggledOnStart: 0
   _toggleGroup: {fileID: 114655138507878068}
   _onClick:
     m_PersistentCalls:
@@ -5231,7 +5233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37939bd78e0eaac4d986a12507764815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnable: 1
+  _isEnableOnStart: 1
   _direction: 1
   _gallery: {fileID: 114372311971223890}
 --- !u!114 &114966592421959388
@@ -5340,20 +5342,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _doShowCursor: 1
---- !u!114 &114992529604662548
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1304691899757670}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0d8ae517d6544548adaa7c67dd5ee0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  global: {fileID: 0}
-  myScore: {fileID: 0}
-  friends: {fileID: 0}
 --- !u!135 &135517691005422582
 SphereCollider:
   m_ObjectHideFlags: 1
