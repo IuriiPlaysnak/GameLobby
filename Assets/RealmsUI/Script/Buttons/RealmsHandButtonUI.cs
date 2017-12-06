@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace PlaysnakRealms
 {
@@ -34,9 +36,36 @@ namespace PlaysnakRealms
 			_filling.enabled = false;
 		}
 
+
+		private Color _originalColor;
+		private Color _transparentColor;
+
+		void Awake() {
+			Init ();
+		}
+
+		virtual protected void Init() {
+			
+			_originalColor = _filling.color;
+			_transparentColor = _filling.color;
+			_transparentColor.a = 0f;
+		}
+
 		virtual public void OnClick ()
 		{
-			UpdateView();
+			_filling.color = _transparentColor;
+			StartCoroutine (ChangeAlphaTo (1f));
+		}
+
+		IEnumerator ChangeAlphaTo(float newAlpha) {
+
+			while (_filling.color.a < 1) {
+
+				_filling.color = new Color (_filling.color.r, _filling.color.g, _filling.color.b, _filling.color.a + Time.deltaTime * 4);
+				yield return null;
+			}
+
+			_filling.color = new Color (_filling.color.r, _filling.color.g, _filling.color.b, 1f);
 		}
 
 		public void SetState(State state) {

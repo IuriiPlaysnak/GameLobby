@@ -8,8 +8,9 @@ namespace PlaysnakRealms
 	{
 		override public void OnClick ()
 		{
+			base.OnClick ();
 			_state = _state == State.PAUSE ? State.PLAY : State.PAUSE;
-			UpdateView();
+			UpdateView ();
 		}
 
 		override protected void UpdateView() {

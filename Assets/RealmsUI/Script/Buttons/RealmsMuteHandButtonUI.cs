@@ -7,6 +7,7 @@ namespace PlaysnakRealms
 	{
 		override public void OnClick ()
 		{
+			base.OnClick ();
 			_state = _state == State.UNMUTE ? State.MUTE : State.UNMUTE;
 			UpdateView ();
 		}
