@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace PlaysnakRealms
 {
-	public class RealmsMuteHandButtonUI : RealmsHandButtonUI
+	public class RealmsMuteHandButtonUI : RealmsSimpleHandButtonUI
 	{
 		override public void OnClick ()
 		{

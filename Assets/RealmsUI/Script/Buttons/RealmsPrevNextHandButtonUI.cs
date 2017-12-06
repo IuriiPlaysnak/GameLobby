@@ -2,7 +2,7 @@
 
 namespace PlaysnakRealms
 {
-	public class RealmsPrevNextHandButtonUI : RealmsHandButtonUI
+	public class RealmsPrevNextHandButtonUI : RealmsSimpleHandButtonUI
 	{
 		protected override void UpdateView ()
 		{

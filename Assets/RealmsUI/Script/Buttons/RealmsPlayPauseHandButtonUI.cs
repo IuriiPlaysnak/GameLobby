@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace PlaysnakRealms
 {
-	public class RealmsPlayPauseHandButtonUI : RealmsHandButtonUI
+	public class RealmsPlayPauseHandButtonUI : RealmsSimpleHandButtonUI
 	{
 		override public void OnClick ()
 		{
