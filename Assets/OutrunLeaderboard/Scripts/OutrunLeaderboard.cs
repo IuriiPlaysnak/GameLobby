@@ -33,8 +33,16 @@ namespace Outrun
 
 		static public void GetLeaderboardByType(AbstractLeaderboard.LeaderboardType type, System.Action<List<Entry>> onDataCallback) {
 
-			_instance.StopAllCoroutines ();
-			_instance.StartCoroutine (_instance.LoadLeaderboardData (type, onDataCallback));
+			_instance.StartLoadingCoroutine (_instance.LoadLeaderboardData (type, onDataCallback));
+		}
+
+		private Coroutine _lastCoroutine;
+		private void StartLoadingCoroutine(IEnumerator method) {
+
+			if (_lastCoroutine != null)
+				StopCoroutine (_lastCoroutine);
+
+			_lastCoroutine = StartCoroutine (method);
 		}
 
 		private IEnumerator LoadLeaderboardData(AbstractLeaderboard.LeaderboardType type, System.Action<List<Entry>> onDataCallback) {

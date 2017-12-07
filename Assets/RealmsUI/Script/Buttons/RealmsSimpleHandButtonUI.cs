@@ -58,6 +58,7 @@ namespace PlaysnakRealms
 
 		public override void Activate ()
 		{
+			_filling.color = _fillingColor;
 			_filling.enabled = true;
 		}
 
@@ -66,10 +67,14 @@ namespace PlaysnakRealms
 			_filling.enabled = false;
 		}
 
+
+		private Coroutine _lastCoroutine;
 		private void ChangeAlphaTo(float newAlpha, float speed) {
 
-			StopAllCoroutines ();
-			StartCoroutine (AnimateAlpha (newAlpha, speed));
+			if (_lastCoroutine != null)
+				StopCoroutine (_lastCoroutine);
+
+			_lastCoroutine = StartCoroutine (AnimateAlpha (newAlpha, speed));
 		}
 
 		IEnumerator AnimateAlpha(float newAlpha, float speed) {
@@ -86,4 +91,3 @@ namespace PlaysnakRealms
 		}
 	}
 }
-
