@@ -15,8 +15,10 @@ namespace PlaysnakRealms {
 		{
 			base.OnStart ();
 
-			if (_isToggledOnStart)
+			if (_isToggledOnStart) {
 				OnInteractionClick ();
+				_ui.Activate ();
+			}
 		}
 
 		protected override void OnInteractionClick ()
