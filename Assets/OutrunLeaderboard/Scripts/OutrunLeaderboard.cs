@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using PlaysnakRealms;
 
 namespace Outrun
@@ -30,18 +31,19 @@ namespace Outrun
 
 		private System.Action<List<Entry>> _onLeaderboardLoadedCallback;
 
-		static public void GetLeaderboardByType(AbstractLeaderboard.LeaderboardType type, System.Action<List<Entry>> onLeaderboardLoadedCallback) {
+		static public void GetLeaderboardByType(AbstractLeaderboard.LeaderboardType type, System.Action<List<Entry>> onDataCallback) {
 
-			if (isReady == false) {
+			_instance.StopAllCoroutines ();
+			_instance.StartCoroutine (_instance.LoadLeaderboardData (type, onDataCallback));
+		}
 
-				if(onLeaderboardLoadedCallback != null)
-					onLeaderboardLoadedCallback (new List<Entry> ());
-				
-				return;
-			}
+		private IEnumerator LoadLeaderboardData(AbstractLeaderboard.LeaderboardType type, System.Action<List<Entry>> onDataCallback) {
 
-			_instance._onLeaderboardLoadedCallback = onLeaderboardLoadedCallback;
-			_leaderboard.GetLeaderboardByType (type, _instance.leaderboardEntriesCount);
+			while (isReady == false)
+				yield return null;
+
+			_onLeaderboardLoadedCallback = onDataCallback;
+			_leaderboard.GetLeaderboardByType (type, leaderboardEntriesCount);
 		}
 
 		static public void SavePlayerDistance(int distance) {

@@ -18,7 +18,7 @@ public class OutrunLeaderboardDisplay : MonoBehaviour
 
     void Update()
     {
-		if (shouldFetch && OutrunLeaderboard.isReady)
+		if (shouldFetch)
         {
 			OutrunLeaderboard.GetLeaderboardByType(AbstractLeaderboard.LeaderboardType.AROUND_ME, OnLeaderboardData);
             shouldFetch = false;
@@ -32,36 +32,15 @@ public class OutrunLeaderboardDisplay : MonoBehaviour
 
     public void GetMyScoreLeaderboard()
     {
-		LoadLeaderboard(AbstractLeaderboard.LeaderboardType.AROUND_ME, OnLeaderboardData);
+		OutrunLeaderboard.GetLeaderboardByType(AbstractLeaderboard.LeaderboardType.AROUND_ME, OnLeaderboardData);
     }
     public void GetGlobalLeaderboard()
     {
-		LoadLeaderboard(AbstractLeaderboard.LeaderboardType.GLOBAL, OnLeaderboardData);
+		OutrunLeaderboard.GetLeaderboardByType(AbstractLeaderboard.LeaderboardType.GLOBAL, OnLeaderboardData);
     }
 	public void GetFriendsLeaderboard() {
         
-		LoadLeaderboard(AbstractLeaderboard.LeaderboardType.FRIENDS, OnLeaderboardData);
-	}
-
-	private void LoadLeaderboard(AbstractLeaderboard.LeaderboardType type
-		, System.Action<List<Outrun.OutrunLeaderboard.Entry>> onLeaderboardLoadedCallback) {
-
-		StopAllCoroutines ();
-
-		if (OutrunLeaderboard.isReady)
-			OutrunLeaderboard.GetLeaderboardByType (type, onLeaderboardLoadedCallback);
-		else
-			StartCoroutine (LoadLeaderboardData (type, onLeaderboardLoadedCallback));
-	}
-
-	IEnumerator LoadLeaderboardData(
-		AbstractLeaderboard.LeaderboardType type
-		, System.Action<List<Outrun.OutrunLeaderboard.Entry>> onLeaderboardLoadedCallback) {
-
-		while (OutrunLeaderboard.isReady == false)
-			yield return null;
-
-		OutrunLeaderboard.GetLeaderboardByType (type, onLeaderboardLoadedCallback);
+		OutrunLeaderboard.GetLeaderboardByType(AbstractLeaderboard.LeaderboardType.FRIENDS, OnLeaderboardData);
 	}
 
 	private void OnLeaderboardData(List<Outrun.OutrunLeaderboard.Entry> entries)
